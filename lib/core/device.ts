@@ -1,21 +1,25 @@
 import { Monitor } from './monitor';
-import * as crypto from 'crypto';
 
 import { Client } from '../client';
 import { DeviceInfo } from './device-info';
 import { ModelInfo } from './model-info';
 
+export enum DeviceType {
+  AC = 'AC',
+  Dehumidifer = 'Dehumidifer',
+  Dishwasher = 'Dishwasher',
+  Dryer = 'Dryer',
+  Washer = 'Washer',
+}
+
 export class Device {
   public model!: ModelInfo;
-  public monitor: any;
+  public monitor?: Monitor;
 
   public constructor(
     public client: Client,
     public device: DeviceInfo,
   ) {
-  }
-
-  public as(deviceType: DeviceType) {
   }
 
   public async load() {

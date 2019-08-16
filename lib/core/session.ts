@@ -51,7 +51,7 @@ export class Session {
 
     const code = _.get(resp, 'returnCode', '');
     if (code !== '0000') {
-      return new MonitorError(deviceId, code);
+      throw new MonitorError(deviceId, code);
     }
 
     if (!('returnData' in resp)) {
