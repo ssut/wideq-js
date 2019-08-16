@@ -129,6 +129,10 @@ export class Client {
   }
 
   public async getDevice(deviceId: string) {
+    if (!Array.isArray(this.devices) || this.devices.length === 0) {
+      await this.updateDevices();
+    }
+
     return this.devices.find(({ id }) => id === deviceId);
   }
 

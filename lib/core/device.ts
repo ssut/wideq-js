@@ -15,6 +15,9 @@ export class Device {
   ) {
   }
 
+  public as(deviceType: DeviceType) {
+  }
+
   public async load() {
     this.model = await this.client.getModelInfo(this.device);
   }

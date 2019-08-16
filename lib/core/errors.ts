@@ -1,8 +1,14 @@
-export class NotLoggedInError extends Error { }
+export class NotLoggedInError extends Error {
+  public name = 'NotLoggedInError';
+}
 
-export class NotConnectedError extends Error { }
+export class NotConnectedError extends Error {
+  public name = 'NotConnectedError';
+}
 
 export class APIError extends Error {
+  public name = 'APIError';
+
   public constructor(
     public code: string,
     public message: string,
@@ -12,12 +18,16 @@ export class APIError extends Error {
 }
 
 export class TokenError extends Error {
+  public name = 'TokenError';
+
   public constructor() {
     super('An authentication token was rejected.');
   }
 }
 
 export class MonitorError extends Error {
+  public name = 'MonitorError';
+
   public constructor(
     public deviceId: string,
     public code: string,

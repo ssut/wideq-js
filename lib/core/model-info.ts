@@ -1,5 +1,13 @@
 import * as _ from 'lodash';
 
+export enum ValueType {
+  Bit = 'Bit',
+  Enum = 'Enum',
+  Range = 'Range',
+  Reference = 'Reference',
+  StringComment = 'StringComment',
+}
+
 export interface ModelDataValue {
   type: string;
 
@@ -7,34 +15,39 @@ export interface ModelDataValue {
 }
 
 export interface ModelData {
-  Value: ModelDataValue;
+  Value: {
+    [key: string]: ModelDataValue;
+  };
 
   [key: string]: any;
 }
 
 export interface BitValue {
+  type: ValueType.Bit,
   options: any;
 }
 
 export interface EnumValue {
+  type: ValueType.Enum,
   options: any;
 }
 
 export interface RangeValue {
+  type: ValueType.Range,
   min: number;
   max: number;
   step: number;
 }
 
 export interface ReferenceValue {
+  type: ValueType.Reference,
   reference: any;
 }
 
-export type ValueType =
-  | BitValue
-  | EnumValue
-  | RangeValue
-  | ReferenceValue;
+export interface StringCommentValue {
+  type: ValueType.StringComment,
+  comment: string;
+}
 
 export class ModelInfo {
   public constructor(
@@ -42,17 +55,22 @@ export class ModelInfo {
   ) {
   }
 
-  public value(name: string): any {
-    const data = this.data.Value;
+  public value(name: string) {
+    const data = this.data.Value[name];
+    if (data === undefined) {
+      return null;
+    }
 
     switch (data.type.toLowerCase()) {
       case 'enum':
         return {
+          type: ValueType.Enum,
           options: data.option,
         } as EnumValue;
 
       case 'range':
         return {
+          type: ValueType.Range,
           min: data.option.min,
           max: data.option.max,
           step: _.get(data.option, 'step', 1),
@@ -63,16 +81,19 @@ export class ModelInfo {
           ...obj,
           [(value as any).startbit]: (value as any).values,
         }), {});
-        return { options: bitValues } as BitValue;
+        return { type: ValueType.Bit, options: bitValues } as BitValue;
       }
 
       case 'reference': {
         const [ref] = data.option;
-        return { reference: this.data[ref] } as ReferenceValue;
+        return { type: ValueType.Reference, reference: this.data[ref] } as ReferenceValue;
       }
 
       case 'string':
-        return;
+        if (typeof data._comment === 'string') {
+          return { type: ValueType.StringComment, comment: data._comment } as StringCommentValue;
+        }
+        return null;
 
       default:
         throw new Error(`Unsupported value type: ${data.type}`);
@@ -137,7 +158,7 @@ export class ModelInfo {
       return this.decodeMonitorBinary(data);
     }
 
-    return data;
+    return JSON.parse(data);
   }
 
 }

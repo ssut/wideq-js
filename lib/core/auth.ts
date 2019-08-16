@@ -66,7 +66,7 @@ export class Auth {
   }
 
   public static async refreshAuth(oauthRoot: string, refreshToken: string) {
-    const tokenUrl = resolveUrl(oauthRoot, '/oauth2/token');
+    const tokenUrl = resolveUrl(oauthRoot + '/', 'oauth2/token');
     const data = {
       grant_type: 'refresh_token',
       refresh_token: refreshToken,

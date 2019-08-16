@@ -1,18 +1,22 @@
 {
-  "name": "wideq-js",
+  "name": "wideq",
   "version": "1.0.0",
   "description": "A Node.JS port of wideq",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "npx tsc -p tsconfig.build.json",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "wideq": "dist/cli.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ssut/wideq-js.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Suhun Han <ssut@ssut.me> (https://github.com/ssut)",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ssut/wideq-js/issues"
   },
@@ -20,6 +24,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "commander": "^3.0.0",
+    "debug": "^4.1.1",
     "lodash": "^4.17.15",
     "luxon": "^1.17.2",
     "qs": "^6.7.0",
@@ -27,6 +32,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/debug": "^4.1.5",
     "@types/lodash": "^4.14.136",
     "@types/luxon": "^1.15.2",
     "@types/qs": "^6.5.3",
