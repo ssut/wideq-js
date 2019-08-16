@@ -82,9 +82,10 @@ export class Auth {
       'lgemp-x-signature': signature,
       'lgemp-x-date': timestamp,
       Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
     };
 
-    const resp = await requestClient.post(tokenUrl, data, { headers }).then(resp => resp.data);
+    const resp = await requestClient.post(tokenUrl, qs.stringify(data), { headers }).then(resp => resp.data);
     if (resp.status !== 1) {
       throw new TokenError();
     }
