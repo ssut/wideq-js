@@ -4,11 +4,13 @@ import { Device } from '../core/device';
 export enum DehumidiferOperationMode {
   SLEEP = '@AP_MAIN_MID_OPMODE_SLEEP_W',
   SILENT = '@AP_MAIN_MID_OPMODE_SILENT_W',
+  /** should be silent */
+  CLIENT = '@AP_MAIN_MID_OPMODE_CILENT_DEHUM_W',
   AUTO = '@AP_MAIN_MID_OPMODE_AUTO_W',
   SMART = '@AP_MAIN_MID_OPMODE_SMART_DEHUM_W',
   FAST = '@AP_MAIN_MID_OPMODE_FAST_DEHUM_W',
   CONCENTRATION_DRY = '@AP_MAIN_MID_OPMODE_CONCENTRATION_DRY_W',
-  CLOTHING_DRY = 'AP_MAIN_MID_OPMODE_CLOTHING_DRY_W',
+  CLOTHING_DRY = '@AP_MAIN_MID_OPMODE_CLOTHING_DRY_W',
 }
 
 /**
@@ -46,6 +48,7 @@ export class DehumidifierDevice extends Device {
 
     const resp = await this.monitor.pollObject();
     if (resp) {
+      console.info(JSON.stringify(resp));
       return new DehumidiferStatus(this, resp);
     }
 
