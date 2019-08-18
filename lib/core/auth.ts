@@ -44,7 +44,6 @@ export class Auth {
   }
 
   public async startSession(): Promise<{ session: Session, items: any[] }> {
-    console.info(this.accessToken);
     const sessionInfo = await Auth.login(
       this.gateway.apiRoot,
       this.accessToken!,
