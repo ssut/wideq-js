@@ -53,6 +53,35 @@ export class DehumidifierDevice extends Device {
 
     return null;
   }
+
+  /**
+   * Turn on or off the device
+   * @param isOn
+   */
+  public async setOn(isOn: boolean) {
+    const op = isOn ? DehumidiferOperation.ON : DehumidiferOperation.OFF;
+    const opValue = this.model.enumValue('Operation', op);
+
+    await this.setControl('Operation', opValue);
+  }
+
+  public async setMode(mode: DehumidiferOperationMode) {
+    const opValue = this.model.enumValue('OpMode', mode);
+
+    await this.setControl('OpMode', opValue);
+  }
+
+  public async setWindStrength(windStrength: DehumidiferWindStrength) {
+    const opValue = this.model.enumValue('WindStrength', windStrength);
+
+    await this.setControl('WindStrength', opValue);
+  }
+
+  public async setAirRemoval(airRemoval: DehumidiferRACMode) {
+    const opValue = this.model.enumValue('AirRemoval', airRemoval);
+
+    await this.setControl('AirRemoval', opValue);
+  }
 }
 
 export class DehumidiferStatus {
