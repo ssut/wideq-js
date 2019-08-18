@@ -1,7 +1,7 @@
-import { asEnum } from './../utils';
+import { asEnum } from '../utils';
 import { Device } from '../core/device';
 
-export enum DehumidiferOperationMode {
+export enum DehumidifierOperationMode {
   SLEEP = '@AP_MAIN_MID_OPMODE_SLEEP_W',
   SILENT = '@AP_MAIN_MID_OPMODE_SILENT_W',
   /** should be silent */
@@ -16,9 +16,9 @@ export enum DehumidiferOperationMode {
 /**
  * WindStrength
  *
- * As I tested with my dehumidifer, both Low and High are available.
+ * As I tested with my Dehumidifier, both Low and High are available.
  */
-export enum DehumidiferWindStrength {
+export enum DehumidifierWindStrength {
   LowestOfTheLow = '@AP_MAIN_MID_WINDSTRENGTH_DHUM_LOWST_LOW_W',
   Lowest = '@AP_MAIN_MID_WINDSTRENGTH_DHUM_LOWST_W',
   Low = '@AP_MAIN_MID_WINDSTRENGTH_DHUM_LOW_W',
@@ -30,12 +30,12 @@ export enum DehumidiferWindStrength {
   Auto = '@AP_MAIN_MID_WINDSTRENGTH_DHUM_AUTO_W',
 }
 
-export enum DehumidiferRACMode {
+export enum DehumidifierRACMode {
   OFF = '@AP_OFF_W',
   ON = '@AP_ON_W',
 }
 
-export enum DehumidiferOperation {
+export enum DehumidifierOperation {
   OFF = '@operation_off',
   ON = '@operation_on',
 }
@@ -48,7 +48,7 @@ export class DehumidifierDevice extends Device {
 
     const resp = await this.monitor.pollObject();
     if (resp) {
-      return new DehumidiferStatus(this, resp);
+      return new DehumidifierStatus(this, resp);
     }
 
     return null;
@@ -59,57 +59,57 @@ export class DehumidifierDevice extends Device {
    * @param isOn
    */
   public async setOn(isOn: boolean) {
-    const op = isOn ? DehumidiferOperation.ON : DehumidiferOperation.OFF;
+    const op = isOn ? DehumidifierOperation.ON : DehumidifierOperation.OFF;
     const opValue = this.model.enumValue('Operation', op);
 
     await this.setControl('Operation', opValue);
   }
 
-  public async setMode(mode: DehumidiferOperationMode) {
+  public async setMode(mode: DehumidifierOperationMode) {
     const opValue = this.model.enumValue('OpMode', mode);
 
     await this.setControl('OpMode', opValue);
   }
 
-  public async setWindStrength(windStrength: DehumidiferWindStrength) {
+  public async setWindStrength(windStrength: DehumidifierWindStrength) {
     const opValue = this.model.enumValue('WindStrength', windStrength);
 
     await this.setControl('WindStrength', opValue);
   }
 
-  public async setAirRemoval(airRemoval: DehumidiferRACMode) {
+  public async setAirRemoval(airRemoval: DehumidifierRACMode) {
     const opValue = this.model.enumValue('AirRemoval', airRemoval);
 
     await this.setControl('AirRemoval', opValue);
   }
 }
 
-export class DehumidiferStatus {
+export class DehumidifierStatus {
   public constructor(
-    public dehumidifer: DehumidifierDevice,
+    public Dehumidifier: DehumidifierDevice,
     public data: any,
   ) {
   }
 
   public get mode() {
-    const key = this.dehumidifer.model.enumName('OpMode', this.data['OpMode']);
-    const mode = asEnum(DehumidiferOperationMode, key);
+    const key = this.Dehumidifier.model.enumName('OpMode', this.data['OpMode']);
+    const mode = asEnum(DehumidifierOperationMode, key);
 
     return mode;
   }
 
   public get windStrength() {
-    const key = this.dehumidifer.model.enumName('WindStrength', this.data['WindStrength']);
-    const windStrength = asEnum(DehumidiferWindStrength, key);
+    const key = this.Dehumidifier.model.enumName('WindStrength', this.data['WindStrength']);
+    const windStrength = asEnum(DehumidifierWindStrength, key);
 
     return windStrength;
   }
 
   public get isAirRemovalOn() {
-    const key = this.dehumidifer.model.enumName('AirRemoval', this.data['AirRemoval']);
-    const racMode = asEnum(DehumidiferRACMode, key);
+    const key = this.Dehumidifier.model.enumName('AirRemoval', this.data['AirRemoval']);
+    const racMode = asEnum(DehumidifierRACMode, key);
 
-    return racMode !== DehumidiferRACMode.OFF;
+    return racMode !== DehumidifierRACMode.OFF;
   }
 
   public get targetHumidity() {
@@ -121,9 +121,9 @@ export class DehumidiferStatus {
   }
 
   public get isOn() {
-    const key = this.dehumidifer.model.enumName('Operation', this.data['Operation']);
-    const op = asEnum(DehumidiferOperation, key);
+    const key = this.Dehumidifier.model.enumName('Operation', this.data['Operation']);
+    const op = asEnum(DehumidifierOperation, key);
 
-    return op !== DehumidiferOperation.OFF;
+    return op !== DehumidifierOperation.OFF;
   }
 }
