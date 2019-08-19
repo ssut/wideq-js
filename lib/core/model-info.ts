@@ -15,6 +15,16 @@ export interface ModelDataValue {
 }
 
 export interface ModelData {
+  Info: {
+    productType: string;
+    productCode: string;
+    coutnry: string;
+    modelType: string;
+    model: string;
+    modelName: string;
+    networkType: string;
+    version: string;
+  };
   Value: {
     [key: string]: ModelDataValue;
   };
