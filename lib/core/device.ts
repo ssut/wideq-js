@@ -36,7 +36,7 @@ export class Device {
     const data = await this.client.session!.getDeviceConfig(this.device.id, key, 'Control');
 
     // The response comes in a funky key / value format: "(key:value)".
-    const [, value] = data.split(':').slice(0, -1);
+    const value = (data.split(':')[1] || '').slice(0, -1);
 
     return value;
   }
