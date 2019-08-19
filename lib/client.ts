@@ -7,7 +7,7 @@ import { DeviceInfo } from './core/device-info';
 import { ModelInfo } from './core/model-info';
 
 export class Client {
-  public devices: any[] = [];
+  public devices: DeviceInfo[] = [];
   public modelInfo: { [key: string]: any } = {};
 
   public constructor(
