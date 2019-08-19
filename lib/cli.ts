@@ -1,15 +1,15 @@
-import { ValueType } from './core/model-info';
-import { NotLoggedInError } from './core/errors';
+import { Device } from './core/device';
+import commander from 'commander';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as readline from 'readline';
+
 import { Client } from './client';
 import { Auth } from './core/auth';
-import { Gateway } from './core/gateway';
-import commander from 'commander';
 import * as constants from './core/constants';
-
-import * as fs from 'fs';
-import * as readline from 'readline';
-import * as path from 'path';
-import { Monitor } from './core/monitor';
+import { NotLoggedInError } from './core/errors';
+import { Gateway } from './core/gateway';
+import { DehumidifierDevice } from './devices/dehumidifier';
 
 const version = fs.existsSync(path.join(__dirname, '../package.json')) ? JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json')).toString()).version : '';
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -44,6 +44,7 @@ program
     const client = await init(country, language, statePath);
 
     saveState(statePath, client);
+    process.exit(0);
   });
 
 program
@@ -58,63 +59,58 @@ program
     }
 
     saveState(statePath, client);
+    process.exit(0);
   });
 
 program
   .command('monitor <deviceId>')
   .description('Monitor any device, displaying generic information about its status.')
-  .option('-v --verbose', 'like debug')
-  .action(async (deviceId: string, { verbose }) => {
+  .action(async (deviceId: string) => {
     const { country, language, statePath } = options;
     const client = await init(country, language, statePath);
 
     const device = await client.getDevice(deviceId);
-    const modelInfo = await client.getModelInfo(device);
+    if (!device) {
+      throw new Error(`Device not found: ${device}`);
+    }
 
+    const modelInfo = await client.getModelInfo(device);
     saveState(statePath, client);
 
-    const monitor = new Monitor(client.session!, deviceId);
-    await monitor.start();
+    let dev!: Device;
+    switch (modelInfo.data.Info.productType.toLowerCase()) {
+      case 'dehumidifier':
+        dev = new DehumidifierDevice(client, device);
+        break;
 
+      default:
+        throw new Error(`Not supported productType: ${modelInfo.data.Info.productType}`);
+    }
+
+    await dev.load();
+    await dev.startMonitor();
     try {
       for (; ;) {
         await delay(1000);
         console.info('polling...');
 
         try {
-          const data = await monitor.poll();
-          if (!data) {
+
+          const status = await dev.poll();
+          if (!status) {
+            console.info('no status');
             continue;
           }
 
-          const resp = modelInfo.decodeMonitor(data);
-          for (const [key, value] of Object.entries(resp)) {
-            try {
-              const desc = modelInfo.value(key);
-              if (!desc) {
-                console.info('-', `${key}:`, value);
-                continue;
-              }
-
-              switch (desc.type) {
-                case ValueType.Enum:
-                  console.info('-', `${key}:`, desc.options[value as any] || value);
-                  break;
-
-                case ValueType.Range:
-                  console.info('-', `${key}:`, `${value} (${desc.min}-${desc.max})`);
-                  break;
-
-                case ValueType.StringComment:
-                  console.info('-', `${key}:`, `(comment) ${desc.comment}`);
-                  break;
-              }
-            } catch (e) {
-              console.error(e);
+          const keys = Reflect.ownKeys((status as any).constructor.prototype);
+          for (const key of keys) {
+            if (typeof key === 'string' && !['constructor'].includes(key)) {
+              console.info(`- ${key}: ${String(Reflect.get(status, key))}`);
             }
           }
         } catch (e) {
           if (e instanceof NotLoggedInError) {
+            await dev.stopMonitor();
             await client.refresh();
             console.info(client.devices);
           }
@@ -125,7 +121,7 @@ program
     } catch (e) {
       console.error(e);
     } finally {
-      await monitor.stop();
+      await dev.stopMonitor();
     }
   });
 

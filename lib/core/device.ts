@@ -14,6 +14,10 @@ export class Device {
   ) {
   }
 
+  public async poll(): Promise<any> {
+    throw new Error('Not implemented.');
+  }
+
   public async load() {
     this.model = await this.client.getModelInfo(this.device);
   }
