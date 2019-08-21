@@ -1,0 +1,10 @@
+lib/
+docs/
+.npmignore
+.editorconfig
+.nojekyll
+tsconfig.json
+tsconfig.build.json
+wideq-state.json
+
+wideq-*.tgz

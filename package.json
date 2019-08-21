@@ -3,8 +3,15 @@
   "version": "1.0.0",
   "description": "A Node.JS port of wideq",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "setup": "npm install",
     "build": "npx tsc -p tsconfig.build.json",
+    "build:dev": "npm run build -- --watch",
+    "clean:full": "npx shx rm -rf node_modules/ dist/ docs/",
+    "clean": "npx shx rm -rf dist/ docs/",
+    "posttypedoc": "npx shx cp .nojekyll docs/.nojekyll",
+    "typedoc": "npx typedoc -out ./docs --mode modules --tsconfig ./tsconfig.build.json ./lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
@@ -38,8 +45,10 @@
     "@types/qs": "^6.5.3",
     "@types/uuid": "^3.4.5",
     "jest": "^24.8.0",
+    "shx": "^0.3.2",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",
+    "typedoc": "^0.15.0",
     "typescript": "^3.5.3"
   }
 }
