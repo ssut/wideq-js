@@ -56,9 +56,13 @@ polling...
 
 ## Implementation Status
 
-| *Device* | *Control* | *Status* |
-| --- | --- | --- |
-| Dehumidifer | :heavy_check_mark: | :heavy_check_mark: |
+| *Device* | *Implementation* | *Control* | *Status* |
+| --- | --- | --- | --- |
+| Dehumidifier | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| AC | :heavy_check_mark: | :warning: needs testing | :warning: needs testing |
+| Dishwasher | :x: | :x: | :x: |
+| Dryer | :x: | :x: | :x: |
+| Washer | :x: | :x: | :x: |
 
 ## Credits
 
