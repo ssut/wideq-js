@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Device } from './core/device';
 import commander from 'commander';
 import * as fs from 'fs';
