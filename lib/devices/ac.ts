@@ -193,9 +193,10 @@ export class ACDevice extends Device {
       return null;
     }
 
-    const resp = await this.monitor.pollObject();
+    const resp = await this.monitor.poll();
     if (resp) {
-      return new ACStatus(this, resp);
+      const data = this.model.decodeMonitor(resp);
+      return new ACStatus(this, data);
     }
 
     return null;

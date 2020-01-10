@@ -12,6 +12,7 @@ import * as constants from './core/constants';
 import { NotLoggedInError } from './core/errors';
 import { Gateway } from './core/gateway';
 import { DehumidifierDevice } from './devices/dehumidifier';
+import { RefrigeratorDevice } from './devices/refrigerator';
 
 const version = fs.existsSync(path.join(__dirname, '../package.json')) ? JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json')).toString()).version : '';
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -83,6 +84,9 @@ program
     switch (modelInfo.data.Info.productType.toLowerCase()) {
       case 'dehumidifier':
         dev = new DehumidifierDevice(client, device);
+        break;
+      case 'ref':
+        dev = new RefrigeratorDevice(client, device);
         break;
 
       default:

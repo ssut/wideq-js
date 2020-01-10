@@ -146,7 +146,7 @@ export class ModelInfo {
     return this.data.Monitoring.type === 'BINARY(BYTE)';
   }
 
-  public decodeMonitorBinary(data: any) {
+  private decodeMonitorBinary(data: any) {
     const decoded: { [key: string]: any } = {};
 
     for (const item of this.data.Monitoring.protocol) {
@@ -155,7 +155,7 @@ export class ModelInfo {
 
       for (let i = item.startByte; i < item.startByte + item.length; i++) {
         const v = data[i];
-        value = (value << 8) + value;
+        value = (value << 8) + v;
         decoded[key] = String(value);
       }
     }
@@ -163,12 +163,12 @@ export class ModelInfo {
     return decoded;
   }
 
-  public decodeMonitor(data: any) {
-    if (this.binaryMonitorData) {
-      return this.decodeMonitorBinary(data);
-    }
+  private decodeMonitorJson(data: any) {
+    return JSON.parse(data.toString('utf-8'));
+  }
 
-    return JSON.parse(data);
+  public decodeMonitor(data: any) {
+    return this.binaryMonitorData ? this.decodeMonitorBinary(data) : this.decodeMonitorJson(data);
   }
 
 }

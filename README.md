@@ -60,6 +60,7 @@ polling...
 | --- | --- | --- | --- |
 | Dehumidifier | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | AC | :heavy_check_mark: | :warning: needs testing | :warning: needs testing |
+| Refrigerator | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Dishwasher | :x: | :x: | :x: |
 | Dryer | :x: | :x: | :x: |
 | Washer | :x: | :x: | :x: |

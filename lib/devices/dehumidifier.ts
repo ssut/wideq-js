@@ -46,9 +46,10 @@ export class DehumidifierDevice extends Device {
       return null;
     }
 
-    const resp = await this.monitor.pollObject();
+    const resp = await this.monitor.poll();
     if (resp) {
-      return new DehumidifierStatus(this, resp);
+      const data = this.model.decodeMonitor(resp);
+      return new DehumidifierStatus(this, data);
     }
 
     return null;
