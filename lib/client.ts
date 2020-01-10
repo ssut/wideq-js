@@ -5,6 +5,8 @@ import * as constants from './core/constants';
 import { Device } from './core/device';
 import { DeviceInfo } from './core/device-info';
 import { ModelInfo } from './core/model-info';
+import { DehumidifierDevice } from './devices/dehumidifier';
+import { RefrigeratorDevice } from './devices/refrigerator';
 
 export class Client {
   public devices: DeviceInfo[] = [];
@@ -128,12 +130,31 @@ export class Client {
     this.devices = deviceInfos;
   }
 
-  public async getDevice(deviceId: string) {
+  public async getDeviceInfo(deviceId: string) {
     if (!Array.isArray(this.devices) || this.devices.length === 0) {
       await this.updateDevices();
     }
 
     return this.devices.find(({ id }) => id === deviceId);
+  }
+
+  public async getDevice(deviceId: string) {
+    const deviceInfo = await this.getDeviceInfo(deviceId);
+    if (!deviceInfo) {
+      throw new Error(`Device not found: ${deviceInfo}`);
+    }
+
+    const modelInfo = await this.getModelInfo(deviceInfo);
+
+    switch (modelInfo.data.Info.productType.toLowerCase()) {
+      case 'dehumidifier':
+        return new DehumidifierDevice(this, deviceInfo);
+      case 'ref':
+        return new RefrigeratorDevice(this, deviceInfo);
+      default:
+        // throw new Error(`Not supported productType: ${modelInfo.data.Info.productType}`);
+        return new Device(this, deviceInfo);
+    }
   }
 
   public async refresh() {

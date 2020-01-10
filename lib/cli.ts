@@ -72,26 +72,8 @@ program
     const { country, language, statePath } = options;
     const client = await init(country, language, statePath);
 
-    const device = await client.getDevice(deviceId);
-    if (!device) {
-      throw new Error(`Device not found: ${device}`);
-    }
-
-    const modelInfo = await client.getModelInfo(device);
+    const dev = await client.getDevice(deviceId);
     saveState(statePath, client);
-
-    let dev!: Device;
-    switch (modelInfo.data.Info.productType.toLowerCase()) {
-      case 'dehumidifier':
-        dev = new DehumidifierDevice(client, device);
-        break;
-      case 'ref':
-        dev = new RefrigeratorDevice(client, device);
-        break;
-
-      default:
-        throw new Error(`Not supported productType: ${modelInfo.data.Info.productType}`);
-    }
 
     await dev.load();
     await dev.startMonitor();
