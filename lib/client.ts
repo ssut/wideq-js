@@ -1,3 +1,4 @@
+import { DishwasherDevice } from './devices/dishwasher';
 import { Auth } from './core/auth';
 import { Gateway } from './core/gateway';
 import { Session } from './core/session';
@@ -149,6 +150,8 @@ export class Client {
     switch (modelInfo.data.Info.productType.toLowerCase()) {
       case 'dehumidifier':
         return new DehumidifierDevice(this, deviceInfo);
+      case 'dw':
+        return new DishwasherDevice(this, deviceInfo);
       case 'ref':
         return new RefrigeratorDevice(this, deviceInfo);
       default:

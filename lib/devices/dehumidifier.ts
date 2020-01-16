@@ -87,27 +87,27 @@ export class DehumidifierDevice extends Device {
 
 export class DehumidifierStatus {
   public constructor(
-    public Dehumidifier: DehumidifierDevice,
-    public data: any,
+    public dehumidifier: DehumidifierDevice,
+    public data: any
   ) {
   }
 
   public get mode() {
-    const key = this.Dehumidifier.model.enumName('OpMode', this.data['OpMode']);
+    const key = this.dehumidifier.model.enumName('OpMode', this.data['OpMode']);
     const mode = asEnum(DehumidifierOperationMode, key);
 
     return mode;
   }
 
   public get windStrength() {
-    const key = this.Dehumidifier.model.enumName('WindStrength', this.data['WindStrength']);
+    const key = this.dehumidifier.model.enumName('WindStrength', this.data['WindStrength']);
     const windStrength = asEnum(DehumidifierWindStrength, key);
 
     return windStrength;
   }
 
   public get isAirRemovalOn() {
-    const key = this.Dehumidifier.model.enumName('AirRemoval', this.data['AirRemoval']);
+    const key = this.dehumidifier.model.enumName('AirRemoval', this.data['AirRemoval']);
     const racMode = asEnum(DehumidifierRACMode, key);
 
     return racMode !== DehumidifierRACMode.OFF;
@@ -122,7 +122,7 @@ export class DehumidifierStatus {
   }
 
   public get isOn() {
-    const key = this.Dehumidifier.model.enumName('Operation', this.data['Operation']);
+    const key = this.dehumidifier.model.enumName('Operation', this.data['Operation']);
     const op = asEnum(DehumidifierOperation, key);
 
     return op !== DehumidifierOperation.OFF;

@@ -1,5 +1,5 @@
 import { Device } from '../core/device';
-import { asEnum } from '../../lib/utils';
+import { asEnum, lookupEnum } from '../utils';
 /**
  * The vertical swing mode for an AC/HVAC device.
  *
@@ -204,8 +204,8 @@ export class ACDevice extends Device {
 }
 export class ACStatus {
   public constructor(
-    public AC: ACDevice,
-    public data: any,
+    public ac: ACDevice,
+    public data: any
   ) { }
 
   public get currentTempInCelsius() {
@@ -213,7 +213,7 @@ export class ACStatus {
   }
 
   public get currentTempInFahrenheit() {
-    return Number(this.AC.c2f[this.currentTempInCelsius]);
+    return Number(this.ac.c2f[this.currentTempInCelsius]);
   }
 
   public get targetTempInCelsius() {
@@ -221,39 +221,39 @@ export class ACStatus {
   }
 
   public get targetTempInFahrenheit() {
-    return Number(this.AC.c2f[this.targetTempInCelsius]);
+    return Number(this.ac.c2f[this.targetTempInCelsius]);
   }
 
   public get mode() {
-    const key = this.AC.model.enumName('OpMode', this.data.OpMode);
+    const key = lookupEnum('OpMode', this.data, this.ac);
     const op = asEnum(ACMode, key);
 
     return op;
   }
 
   public get fanSpeed() {
-    const key = this.AC.model.enumName('WindStrength', this.data.WindStrength);
+    const key = lookupEnum('WindStrength', this.data, this.ac);
     const fanSpeed = asEnum(ACFanSpeed, key);
 
     return fanSpeed;
   }
 
   public get HorizontalSwing() {
-    const key = this.AC.model.enumName('WDirHStep', this.data.WDirHStep);
+    const key = lookupEnum('WDirHStep', this.data, this.ac);
     const swing = asEnum(ACOperation, key);
 
     return swing;
   }
 
   public getVerticalSwing() {
-    const key = this.AC.model.enumName('WDirVStep', this.data.WDirVStep);
+    const key = lookupEnum('WDirVStep', this.data, this.ac);
     const swing = asEnum(ACOperation, key);
 
     return swing;
   }
 
   public get isOn() {
-    const key = this.AC.model.enumName('Operation', this.data.Operation);
+    const key = lookupEnum('Operation', this.data, this.ac);
     const op = asEnum(ACOperation, key);
 
     return op !== ACOperation.OFF;

@@ -24,3 +24,14 @@ export function lookupEnum(attr: string, data: any, device: Device) {
    */
   return device.model.enumName(attr, data[attr]);
 }
+
+export function lookupReference(attr: string, data: any, device: Device) {
+/**
+ * Look up a reference value for the provided attribute.
+ * @param attr: The attribute to find the value for.
+ * @param data: The JSON data from the API.
+ * @param device: A sub-class instance of a Device.
+ * @returns: The looked up value.
+ */
+  return device.model.referenceName(attr, data[attr]);
+}
