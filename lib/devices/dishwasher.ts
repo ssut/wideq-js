@@ -44,18 +44,18 @@ export class DishwasherDevice extends Device {
 
 export class DishwasherStatus {
   public constructor(
-    public dishwasher: DishwasherDevice,
+    public device: DishwasherDevice,
     public data: any
   ) { }
 
   public get state() {
-    const value = lookupEnum('DishwasherState', this.data, this.dishwasher);
-    return asEnum(DishwasherState, value);
+    const key = lookupEnum('DishwasherState', this.data, this.device);
+    return asEnum(DishwasherState, key);
   }
 
   public get process() {
-    const value = lookupEnum('Process', this.data, this.dishwasher);
-    return value !== '-' ? asEnum(DishwasherProcess, value) : null;
+    const key = lookupEnum('Process', this.data, this.device);
+    return key !== '-' ? asEnum(DishwasherProcess, key) : null;
   }
 
   public get isOn() {
@@ -63,29 +63,29 @@ export class DishwasherStatus {
   }
 
   public get remainingTime() {
-    return (Number(this.data['Remain_Time_H']) * 60 + Number(this.data['Remain_Time_M']));
+    return Number(this.data['Remain_Time_H']) * 60 + Number(this.data['Remain_Time_M']);
   }
 
   public get initialTime() {
-    return (Number(this.data['Initial_Time_H']) * 60 + Number(this.data['Initial_Time_M']));
+    return Number(this.data['Initial_Time_H']) * 60 + Number(this.data['Initial_Time_M']);
   }
 
   public get reserveTime() {
-    return (Number(this.data['Reserve_Time_H']) * 60 + Number(this.data['Reserve_Time_M']));
+    return Number(this.data['Reserve_Time_H']) * 60 + Number(this.data['Reserve_Time_M']);
   }
 
   public get course() {
-    const value = lookupReference('Course', this.data, this.dishwasher);
+    const value = lookupReference('Course', this.data, this.device);
     return value;
   }
 
   public get smartCourse() {
-    const value = lookupReference('SmartCourse', this.data, this.dishwasher);
+    const value = lookupReference('SmartCourse', this.data, this.device);
     return value;
   }
 
   public get error() {
-    const value = lookupReference('Error', this.data, this.dishwasher);
+    const value = lookupReference('Error', this.data, this.device);
     return value;
   }
 }

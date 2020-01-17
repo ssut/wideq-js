@@ -90,54 +90,54 @@ export class RefrigeratorDevice extends Device {
 
 export class RefrigeratorStatus {
   public constructor(
-    public refrigerator: RefrigeratorDevice,
+    public device: RefrigeratorDevice,
     public data: any
   ) {
   }
 
   public get tempRefrigeratorC() {
-    const value = lookupEnum('TempRefrigerator', this.data, this.refrigerator);
-    return Number(value);
+    const key = lookupEnum('TempRefrigerator', this.data, this.device);
+    return Number(key);
   }
 
   public get tempFreezerC() {
-    const value = lookupEnum('TempFreezer', this.data, this.refrigerator);
-    return Number(value);
+    const key = lookupEnum('TempFreezer', this.data, this.device);
+    return Number(key);
   }
 
   public get icePlusStatus() {
-    const value = lookupEnum('IcePlus', this.data, this.refrigerator);
-    return asEnum(IcePlus, value);
+    const key = lookupEnum('IcePlus', this.data, this.device);
+    return asEnum(IcePlus, key);
   }
 
   public get freshAirFilterStatus() {
-    const value = lookupEnum('FreshAirFilter', this.data, this.refrigerator);
-    return asEnum(FreshAirFilter, value);
+    const key = lookupEnum('FreshAirFilter', this.data, this.device);
+    return asEnum(FreshAirFilter, key);
   }
 
   public get energySavingMode() {
-    const value = lookupEnum('SmartSavingMode', this.data, this.refrigerator);
-    return asEnum(SmartSavingMode, value);
+    const key = lookupEnum('SmartSavingMode', this.data, this.device);
+    return asEnum(SmartSavingMode, key);
   }
 
   public get doorOpened() {
-    const value = lookupEnum('DoorOpenState', this.data, this.refrigerator);
-    return asEnum(DoorOpenState, value) == DoorOpenState.OPEN;
+    const key = lookupEnum('DoorOpenState', this.data, this.device);
+    return asEnum(DoorOpenState, key) == DoorOpenState.OPEN;
   }
 
   public get tempUnit() {
-    const value = lookupEnum('TempUnit', this.data, this.refrigerator);
-    return asEnum(TempUnit, value);
+    const key = lookupEnum('TempUnit', this.data, this.device);
+    return asEnum(TempUnit, key);
   }
 
   public get energySavingEnabled() {
-    const value = lookupEnum('SmartSavingModeStatus', this.data, this.refrigerator);
-    return asEnum(SmartSavingModeStatus, value) == SmartSavingModeStatus.ON;
+    const key = lookupEnum('SmartSavingModeStatus', this.data, this.device);
+    return asEnum(SmartSavingModeStatus, key) == SmartSavingModeStatus.ON;
   }
 
   public get locked() {
-    const value = lookupEnum('LockingStatus', this.data, this.refrigerator);
-    return asEnum(LockingStatus, value) == LockingStatus.LOCK;
+    const key = lookupEnum('LockingStatus', this.data, this.device);
+    return asEnum(LockingStatus, key) == LockingStatus.LOCK;
   }
 
   public get activeSavingStatus() {
@@ -145,7 +145,7 @@ export class RefrigeratorStatus {
   }
 
   public get ecoEnabled() {
-    const value = lookupEnum('EcoFriendly', this.data, this.refrigerator);
+    const value = lookupEnum('EcoFriendly', this.data, this.device);
     return asEnum(EcoFriendly, value) == EcoFriendly.ON;
   }
 
