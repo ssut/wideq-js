@@ -8,6 +8,8 @@ import { DeviceInfo } from './core/device-info';
 import { ModelInfo } from './core/model-info';
 import { DehumidifierDevice } from './devices/dehumidifier';
 import { RefrigeratorDevice } from './devices/refrigerator';
+import { DryerDevice } from './devices/dryer';
+import { WasherDevice } from './devices/washer';
 
 export class Client {
   public devices: DeviceInfo[] = [];
@@ -152,6 +154,10 @@ export class Client {
         return new DehumidifierDevice(this, deviceInfo);
       case 'dw':
         return new DishwasherDevice(this, deviceInfo);
+      case 'wm':
+        return modelInfo.data.Info.modelType.toLowerCase() === 'dryer' ?
+          new DryerDevice(this, deviceInfo) :
+          new WasherDevice(this, deviceInfo);
       case 'ref':
         return new RefrigeratorDevice(this, deviceInfo);
       default:

@@ -62,8 +62,8 @@ polling...
 | AC | :heavy_check_mark: | :warning: needs testing | :warning: needs testing |
 | Refrigerator | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Dishwasher | :heavy_check_mark: | :x: | :x: |
-| Dryer | :x: | :x: | :x: |
-| Washer | :x: | :x: | :x: |
+| Dryer | :heavy_check_mark: | :x: | :x: |
+| Washer | :heavy_check_mark: | :x: | :x: |
 
 ## Credits
 
