@@ -7,6 +7,7 @@ import { DeviceInfo } from './core/device-info';
 import { ModelInfo } from './core/model-info';
 import { DehumidifierDevice } from './devices/dehumidifier';
 import { RefrigeratorDevice } from './devices/refrigerator';
+import { ACDevice } from './devices/ac';
 
 export class Client {
   public devices: DeviceInfo[] = [];
@@ -145,8 +146,9 @@ export class Client {
     }
 
     const modelInfo = await this.getModelInfo(deviceInfo);
-
     switch (modelInfo.data.Info.productType.toLowerCase()) {
+      case 'ac':
+        return new ACDevice(this, deviceInfo);
       case 'dehumidifier':
         return new DehumidifierDevice(this, deviceInfo);
       case 'ref':
