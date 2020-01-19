@@ -240,14 +240,14 @@ export class ACStatus {
 
   public get HorizontalSwing() {
     const key = this.AC.model.enumName('WDirHStep', this.data.WDirHStep);
-    const swing = asEnum(ACOperation, key);
+    const swing = asEnum(ACHSwingMode, key);
 
     return swing;
   }
 
-  public getVerticalSwing() {
+  public get VerticalSwing() {
     const key = this.AC.model.enumName('WDirVStep', this.data.WDirVStep);
-    const swing = asEnum(ACOperation, key);
+    const swing = asEnum(ACVSwingMode, key);
 
     return swing;
   }
