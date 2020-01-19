@@ -1,5 +1,5 @@
+import { asEnum } from '../utils';
 import { Device } from '../core/device';
-import { asEnum } from '../../lib/utils';
 /**
  * The vertical swing mode for an AC/HVAC device.
  *
