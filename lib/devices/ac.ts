@@ -102,7 +102,7 @@ export class ACDevice extends Device {
       if (mapping.type === 'Enum') {
         return Object.entries(mapping.options).reduce((obj, [f, c]) => ({
           ...obj,
-          [Number(c)]: c,
+          [Number(f)]: c,
          }), {});
       }
     }
