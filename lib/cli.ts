@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import { Device } from './core/device';
 import commander from 'commander';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -11,8 +10,6 @@ import { Auth } from './core/auth';
 import * as constants from './core/constants';
 import { NotLoggedInError } from './core/errors';
 import { Gateway } from './core/gateway';
-import { DehumidifierDevice } from './devices/dehumidifier';
-import { RefrigeratorDevice } from './devices/refrigerator';
 
 const version = fs.existsSync(path.join(__dirname, '../package.json')) ? JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json')).toString()).version : '';
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -31,11 +28,11 @@ const options = {
 const program = new commander.Command('WideQJS');
 program
   .version(version)
-  .option('-C, --country <type>', 'Country code for account', constants.DEFAULT_COUNTRY)
+  .option('-c, --country <type>', 'Country code for account', constants.DEFAULT_COUNTRY)
   .on('option:country', (value) => options.country = value)
   .option('-l, --language <type>', 'Language code for account', constants.DEFAULT_LANGUAGE)
   .on('option:language', (value) => options.language = value)
-  .option('-S, --state-path <type>', 'State file path', 'wideq-state.json')
+  .option('-s, --state-path <type>', 'State file path', 'wideq-state.json')
   .on('option:statePath', (value) => options.statePath = value);
 
 program
@@ -45,6 +42,8 @@ program
     const { country, language, statePath } = options;
 
     const client = await init(country, language, statePath);
+
+    console.info('Refresh token: ' + client.auth.refreshToken);
 
     saveState(statePath, client);
     process.exit(0);

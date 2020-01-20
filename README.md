@@ -26,10 +26,10 @@ $ wideq
 Usage: WideQJS [options] [command]
 
 Options:
-  -V, --version            output the version number
-  -C, --country <type>     Country code for account (default: "US")
+  -v, --version            output the version number
+  -c, --country <type>     Country code for account (default: "US")
   -l, --language <type>    Language code for account (default: "en-US")
-  -S, --state-path <type>  State file path (default: "wideq-state.json")
+  -s, --state-path <type>  State file path (default: "wideq-state.json")
   -h, --help               output usage information
 
 Commands:
