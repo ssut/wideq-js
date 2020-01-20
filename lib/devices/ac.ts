@@ -235,17 +235,13 @@ export class ACStatus {
   }
 
   public get horizontalSwing() {
-    const key = this.AC.model.enumName('WDirHStep', this.data.WDirHStep);
-    const swing = asEnum(ACHSwingMode, key);
-
-    return swing;
+    const key = lookupEnum('WDirHStep', this.data, this.device);
+    return asEnum(ACHSwingMode, key);
   }
 
   public get verticalSwing() {
-    const key = this.AC.model.enumName('WDirVStep', this.data.WDirVStep);
-    const swing = asEnum(ACVSwingMode, key);
-
-    return swing;
+    const key = lookupEnum('WDirVStep', this.data, this.device);
+    return asEnum(ACVSwingMode, key);
   }
 
   public get isOn() {
