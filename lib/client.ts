@@ -150,6 +150,7 @@ export class Client {
     }
 
     const modelInfo = await this.getModelInfo(deviceInfo);
+
     switch (deviceInfo.data.deviceType) {
       case DeviceType.AC:
         return new ACDevice(this, deviceInfo);
