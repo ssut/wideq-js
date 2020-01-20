@@ -1,3 +1,5 @@
+import { LangPackModel } from './core/lang-pack-model';
+import { LangPackProduct } from './core/lang-pack-product';
 import { ACDevice } from './devices/ac';
 import { DishwasherDevice } from './devices/dishwasher';
 import { Auth } from './core/auth';
@@ -16,6 +18,8 @@ import { DeviceType } from './core/constants';
 export class Client {
   public devices: DeviceInfo[] = [];
   public modelInfo: { [key: string]: any } = {};
+  public langPackProduct: { [key: string]: any } = {};
+  public langPackModel: { [key: string]: any } = {};
 
   public constructor(
     public gateway: Gateway,
@@ -37,7 +41,7 @@ export class Client {
   }
 
   public static loadFromState(state: {
-    [key in 'gateway' | 'auth' | 'session' | 'modelInfo' | 'country' | 'language']: any;
+    [key in 'gateway' | 'auth' | 'session' | 'modelInfo' | 'country' | 'language' | 'langPackProduct' | 'langPackModel']: any;
   }) {
     let gateway: Gateway;
     let auth: Auth;
@@ -45,6 +49,8 @@ export class Client {
     let modelInfo: Client['modelInfo'] = {};
     let country: string = constants.DEFAULT_COUNTRY;
     let language: string = constants.DEFAULT_LANGUAGE;
+    let lang_pack_product: Client['langPackProduct'] = {};
+    let lang_pack_model: Client['langPackModel'] = {};
 
     for (const key of Object.keys(state)) {
       switch (key) {
@@ -82,6 +88,14 @@ export class Client {
 
         case 'language':
           language = state.language;
+          break;
+
+        case 'langPackProduct':
+          lang_pack_product = state.langPackProduct;
+          break;
+
+        case 'langPackModel':
+          lang_pack_model = state.langPackModel;
           break;
       }
     }
@@ -125,6 +139,9 @@ export class Client {
 
       country: this.country,
       language: this.language,
+
+      langPackProduct: this.langPackProduct,
+      langPackModel: this.langPackModel
     };
   }
 
@@ -149,7 +166,9 @@ export class Client {
       throw new Error(`Device not found: ${deviceInfo}`);
     }
 
-    const modelInfo = await this.getModelInfo(deviceInfo);
+    await this.getModelInfo(deviceInfo);
+    await this.getLangPackProduct(deviceInfo);
+    await this.getLangPackModel(deviceInfo);
 
     switch (deviceInfo.data.deviceType) {
       case DeviceType.AC:
@@ -186,5 +205,23 @@ export class Client {
     }
 
     return new ModelInfo(this.modelInfo[url]);
+  }
+
+  public async getLangPackProduct(device: DeviceInfo) {
+    const url = device.langPackProductUrl;
+    if (!(url in this.langPackProduct)) {
+      this.langPackProduct[url] = await device.loadLangPackProduct();
+    }
+
+    return new LangPackProduct(this.langPackProduct[url]);
+  }
+
+  public async getLangPackModel(device: DeviceInfo) {
+    const url = device.langPackModelUrl;
+    if (!(url in this.langPackModel)) {
+      this.langPackModel[url] = await device.loadLangPackModel();
+    }
+
+    return new LangPackModel(this.langPackModel[url]);
   }
 }

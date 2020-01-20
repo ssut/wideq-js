@@ -3,9 +3,13 @@ import { Monitor } from './monitor';
 import { Client } from '../client';
 import { DeviceInfo } from './device-info';
 import { ModelInfo } from './model-info';
+import { LangPackModel } from './lang-pack-model';
+import { LangPackProduct } from './lang-pack-product';
 
 export class Device {
   public model!: ModelInfo;
+  public langPackProduct!: LangPackProduct;
+  public langPackModel!: LangPackModel;
   public monitor?: Monitor;
 
   public constructor(
@@ -20,6 +24,8 @@ export class Device {
 
   public async load() {
     this.model = await this.client.getModelInfo(this.device);
+    this.langPackProduct = await this.client.getLangPackProduct(this.device);
+    this.langPackModel = await this.client.getLangPackModel(this.device);
   }
 
   public async setControl(key: string, value: any) {

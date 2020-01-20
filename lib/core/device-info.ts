@@ -5,6 +5,9 @@ export interface DeviceData {
   modelNm: string;
   deviceId: string;
   modelJsonUrl: string;
+  langPackProductTypeUri: string;
+  langPackModelUri: string;
+  macAddress: string;
   alias: string;
   deviceType: DeviceType;
 }
@@ -19,6 +22,14 @@ export class DeviceInfo {
     return requestClient.get(this.modelInfoUrl).then(resp => resp.data);
   }
 
+  public async loadLangPackProduct() {
+    return this.langPackProductUrl && requestClient.get(this.langPackProductUrl).then(resp => resp.data);
+  }
+
+  public async loadLangPackModel() {
+    return this.langPackModelUrl && requestClient.get(this.langPackModelUrl).then(resp => resp.data);
+  }
+
   public get modelId() {
     return this.data.modelNm;
   }
@@ -29,6 +40,18 @@ export class DeviceInfo {
 
   public get modelInfoUrl() {
     return this.data.modelJsonUrl;
+  }
+
+  public get langPackProductUrl() {
+    return this.data.langPackProductTypeUri;
+  }
+
+  public get langPackModelUrl() {
+    return this.data.langPackModelUri;
+  }
+
+  public get macAddress() {
+    return this.data.macAddress;
   }
 
   public get name() {
