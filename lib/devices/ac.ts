@@ -102,7 +102,7 @@ export class ACDevice extends Device {
       if (mapping.type === 'Enum') {
         return Object.entries(mapping.options).reduce((obj, [f, c]) => ({
           ...obj,
-          [Number(c)]: c,
+          [Number(f)]: c,
          }), {});
       }
     }
@@ -234,14 +234,14 @@ export class ACStatus {
     return asEnum(ACFanSpeed, key);
   }
 
-  public get HorizontalSwing() {
+  public get horizontalSwing() {
     const key = lookupEnum('WDirHStep', this.data, this.device);
-    return asEnum(ACOperation, key);
+    return asEnum(ACHSwingMode, key);
   }
 
-  public getVerticalSwing() {
+  public get verticalSwing() {
     const key = lookupEnum('WDirVStep', this.data, this.device);
-    return asEnum(ACOperation, key);
+    return asEnum(ACVSwingMode, key);
   }
 
   public get isOn() {
