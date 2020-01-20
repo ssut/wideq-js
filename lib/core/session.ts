@@ -58,7 +58,7 @@ export class Session {
       return null;
     }
 
-    return Buffer.from(resp.returnData, 'base64').toString('utf-8');
+    return Buffer.from(resp.returnData, 'base64');
   }
 
   public async stopMonitor(deviceId: string, workId: WorkId) {

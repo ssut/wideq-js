@@ -1,3 +1,5 @@
+import { ACDevice } from './devices/ac';
+import { DishwasherDevice } from './devices/dishwasher';
 import { Auth } from './core/auth';
 import { Gateway } from './core/gateway';
 import { Session } from './core/session';
@@ -5,6 +7,11 @@ import * as constants from './core/constants';
 import { Device } from './core/device';
 import { DeviceInfo } from './core/device-info';
 import { ModelInfo } from './core/model-info';
+import { DehumidifierDevice } from './devices/dehumidifier';
+import { RefrigeratorDevice } from './devices/refrigerator';
+import { DryerDevice } from './devices/dryer';
+import { WasherDevice } from './devices/washer';
+import { DeviceType } from './core/constants';
 
 export class Client {
   public devices: DeviceInfo[] = [];
@@ -128,12 +135,39 @@ export class Client {
     this.devices = deviceInfos;
   }
 
-  public async getDevice(deviceId: string) {
+  public async getDeviceInfo(deviceId: string) {
     if (!Array.isArray(this.devices) || this.devices.length === 0) {
       await this.updateDevices();
     }
 
     return this.devices.find(({ id }) => id === deviceId);
+  }
+
+  public async getDevice(deviceId: string) {
+    const deviceInfo = await this.getDeviceInfo(deviceId);
+    if (!deviceInfo) {
+      throw new Error(`Device not found: ${deviceInfo}`);
+    }
+
+    const modelInfo = await this.getModelInfo(deviceInfo);
+
+    switch (deviceInfo.data.deviceType) {
+      case DeviceType.AC:
+        return new ACDevice(this, deviceInfo);
+      case DeviceType.DEHUMIDIFIER:
+        return new DehumidifierDevice(this, deviceInfo);
+      case DeviceType.DISHWASHER:
+        return new DishwasherDevice(this, deviceInfo);
+      case DeviceType.DRYER:
+        return new DryerDevice(this, deviceInfo);
+      case DeviceType.WASHER:
+        return new WasherDevice(this, deviceInfo);
+      case DeviceType.REFRIGERATOR:
+        return new RefrigeratorDevice(this, deviceInfo);
+      default:
+        // throw new Error(`Not supported productType: ${modelInfo.data.Info.productType}`);
+        return new Device(this, deviceInfo);
+    }
   }
 
   public async refresh() {

@@ -36,13 +36,4 @@ export class Monitor {
 
     return null;
   }
-
-  public async pollObject() {
-    const resp = await this.poll();
-    if (typeof resp === 'string') {
-      return JSON.parse(resp);
-    }
-
-    return null;
-  }
 }

@@ -1,5 +1,5 @@
 import { Device } from '../core/device';
-import { asEnum } from '../../lib/utils';
+import { asEnum, lookupEnum } from '../utils';
 /**
  * The vertical swing mode for an AC/HVAC device.
  *
@@ -14,7 +14,7 @@ export enum ACVSwingMode {
   FOUR = '@4',
   FIVE = '@5',
   SIX = '@6',
-  ALL = '@100',
+  ALL = '@100'
 }
 
 /**
@@ -35,7 +35,7 @@ export enum ACHSwingMode {
   FIVE = '@5',
   LEFT_HALF = '@13',
   RIGHT_HALF = '@35',
-  ALL = '@100',
+  ALL = '@100'
 }
 
 /**
@@ -51,7 +51,7 @@ export enum ACMode {
   ACO = "@AC_MAIN_OPERATION_MODE_ACO_W",
   AROMA = "@AC_MAIN_OPERATION_MODE_AROMA_W",
   ENERGY_SAVING = "@AC_MAIN_OPERATION_MODE_ENERGY_SAVING_W",
-  ENERGY_SAVER = "@AC_MAIN_OPERATION_MODE_ENERGY_SAVER_W",
+  ENERGY_SAVER = "@AC_MAIN_OPERATION_MODE_ENERGY_SAVER_W"
 }
 
 /**
@@ -66,7 +66,7 @@ export enum ACFanSpeed {
   MID_HIGH = '@AC_MAIN_WIND_STRENGTH_MID_HIGH_W',
   HIGH = '@AC_MAIN_WIND_STRENGTH_HIGH_W',
   POWER = '@AC_MAIN_WIND_STRENGTH_POWER_W',
-  AUTO = '@AC_MAIN_WIND_STRENGTH_AUTO_W',
+  AUTO = '@AC_MAIN_WIND_STRENGTH_AUTO_W'
 }
 
 /**
@@ -77,7 +77,7 @@ export enum ACOperation {
   /** This one seems to mean "on" ? */
   RIGHT_ON = "@AC_MAIN_OPERATION_RIGHT_ON_W",
   LEFT_ON = "@AC_MAIN_OPERATION_LEFT_ON_W",
-  ALL_ON = "@AC_MAIN_OPERATION_ALL_ON_W",
+  ALL_ON = "@AC_MAIN_OPERATION_ALL_ON_W"
 }
 
 export class ACDevice extends Device {
@@ -193,9 +193,10 @@ export class ACDevice extends Device {
       return null;
     }
 
-    const resp = await this.monitor.pollObject();
+    const resp = await this.monitor.poll();
     if (resp) {
-      return new ACStatus(this, resp);
+      const data = this.model.decodeMonitor(resp);
+      return new ACStatus(this, data);
     }
 
     return null;
@@ -203,8 +204,8 @@ export class ACDevice extends Device {
 }
 export class ACStatus {
   public constructor(
-    public AC: ACDevice,
-    public data: any,
+    public device: ACDevice,
+    public data: any
   ) { }
 
   public get currentTempInCelsius() {
@@ -212,7 +213,7 @@ export class ACStatus {
   }
 
   public get currentTempInFahrenheit() {
-    return Number(this.AC.c2f[this.currentTempInCelsius]);
+    return Number(this.device.c2f[this.currentTempInCelsius]);
   }
 
   public get targetTempInCelsius() {
@@ -220,41 +221,31 @@ export class ACStatus {
   }
 
   public get targetTempInFahrenheit() {
-    return Number(this.AC.c2f[this.targetTempInCelsius]);
+    return Number(this.device.c2f[this.targetTempInCelsius]);
   }
 
   public get mode() {
-    const key = this.AC.model.enumName('OpMode', this.data.OpMode);
-    const op = asEnum(ACMode, key);
-
-    return op;
+    const key = lookupEnum('OpMode', this.data, this.device);
+    return asEnum(ACMode, key);
   }
 
   public get fanSpeed() {
-    const key = this.AC.model.enumName('WindStrength', this.data.WindStrength);
-    const fanSpeed = asEnum(ACFanSpeed, key);
-
-    return fanSpeed;
+    const key = lookupEnum('WindStrength', this.data, this.device);
+    return asEnum(ACFanSpeed, key);
   }
 
   public get HorizontalSwing() {
-    const key = this.AC.model.enumName('WDirHStep', this.data.WDirHStep);
-    const swing = asEnum(ACOperation, key);
-
-    return swing;
+    const key = lookupEnum('WDirHStep', this.data, this.device);
+    return asEnum(ACOperation, key);
   }
 
   public getVerticalSwing() {
-    const key = this.AC.model.enumName('WDirVStep', this.data.WDirVStep);
-    const swing = asEnum(ACOperation, key);
-
-    return swing;
+    const key = lookupEnum('WDirVStep', this.data, this.device);
+    return asEnum(ACOperation, key);
   }
 
   public get isOn() {
-    const key = this.AC.model.enumName('Operation', this.data.Operation);
-    const op = asEnum(ACOperation, key);
-
-    return op !== ACOperation.OFF;
+    const key = lookupEnum('Operation', this.data, this.device);
+    return asEnum(ACOperation, key) !== ACOperation.OFF;
   }
 }

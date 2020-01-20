@@ -1,4 +1,4 @@
-import { asEnum } from '../utils';
+import { asEnum, lookupEnum } from '../utils';
 import { Device } from '../core/device';
 
 export enum DehumidifierOperationMode {
@@ -46,9 +46,10 @@ export class DehumidifierDevice extends Device {
       return null;
     }
 
-    const resp = await this.monitor.pollObject();
+    const resp = await this.monitor.poll();
     if (resp) {
-      return new DehumidifierStatus(this, resp);
+      const data = this.model.decodeMonitor(resp);
+      return new DehumidifierStatus(this, data);
     }
 
     return null;
@@ -86,30 +87,24 @@ export class DehumidifierDevice extends Device {
 
 export class DehumidifierStatus {
   public constructor(
-    public Dehumidifier: DehumidifierDevice,
-    public data: any,
+    public device: DehumidifierDevice,
+    public data: any
   ) {
   }
 
   public get mode() {
-    const key = this.Dehumidifier.model.enumName('OpMode', this.data['OpMode']);
-    const mode = asEnum(DehumidifierOperationMode, key);
-
-    return mode;
+    const key = lookupEnum('OpMode', this.data, this.device);
+    return asEnum(DehumidifierOperationMode, key);
   }
 
   public get windStrength() {
-    const key = this.Dehumidifier.model.enumName('WindStrength', this.data['WindStrength']);
-    const windStrength = asEnum(DehumidifierWindStrength, key);
-
-    return windStrength;
+    const key = lookupEnum('WindStrength', this.data, this.device);
+    return asEnum(DehumidifierWindStrength, key);
   }
 
   public get isAirRemovalOn() {
-    const key = this.Dehumidifier.model.enumName('AirRemoval', this.data['AirRemoval']);
-    const racMode = asEnum(DehumidifierRACMode, key);
-
-    return racMode !== DehumidifierRACMode.OFF;
+    const key = lookupEnum('AirRemoval', this.data, this.device);
+    return asEnum(DehumidifierRACMode, key) !== DehumidifierRACMode.OFF;
   }
 
   public get targetHumidity() {
@@ -121,9 +116,7 @@ export class DehumidifierStatus {
   }
 
   public get isOn() {
-    const key = this.Dehumidifier.model.enumName('Operation', this.data['Operation']);
-    const op = asEnum(DehumidifierOperation, key);
-
-    return op !== DehumidifierOperation.OFF;
+    const key = lookupEnum('Operation', this.data, this.device);
+    return asEnum(DehumidifierOperation, key) !== DehumidifierOperation.OFF;
   }
 }

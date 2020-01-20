@@ -26,10 +26,10 @@ $ wideq
 Usage: WideQJS [options] [command]
 
 Options:
-  -V, --version            output the version number
-  -C, --country <type>     Country code for account (default: "US")
+  -v, --version            output the version number
+  -c, --country <type>     Country code for account (default: "US")
   -l, --language <type>    Language code for account (default: "en-US")
-  -S, --state-path <type>  State file path (default: "wideq-state.json")
+  -s, --state-path <type>  State file path (default: "wideq-state.json")
   -h, --help               output usage information
 
 Commands:
@@ -60,9 +60,10 @@ polling...
 | --- | --- | --- | --- |
 | Dehumidifier | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | AC | :heavy_check_mark: | :warning: needs testing | :warning: needs testing |
-| Dishwasher | :x: | :x: | :x: |
-| Dryer | :x: | :x: | :x: |
-| Washer | :x: | :x: | :x: |
+| Refrigerator | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Dishwasher | :heavy_check_mark: | :x: | :x: |
+| Dryer | :heavy_check_mark: | :x: | :x: |
+| Washer | :heavy_check_mark: | :x: | :x: |
 
 ## Credits
 
