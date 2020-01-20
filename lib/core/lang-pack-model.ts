@@ -26,7 +26,7 @@ export class LangPackModel {
    * Look up the encoded value for a friendly enum name.
    */
   public enumValue(name: string) {
-    const packs = (this.value() as LangValue).packs;
+    const packs = (this.value() as LangValue).packs || {};
     // invert them pa
     const packsInv = _.invert(packs);
 
@@ -37,7 +37,7 @@ export class LangPackModel {
    * Look up the friendly enum name for an encoded value.
    */
   public enumName(value: string) {
-    const packs = (this.value() as LangValue).packs;
+    const packs = (this.value() as LangValue).packs || {};
     if (!(value in packs)) {
       return null;
     }

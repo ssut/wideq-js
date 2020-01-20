@@ -1,4 +1,4 @@
-import { asEnum, lookupEnum } from '../utils';
+import { asEnum, lookupEnum, lookupEnumLang } from '../utils';
 import { Device } from '../core/device';
 
 export enum IcePlus {
@@ -108,6 +108,10 @@ export class RefrigeratorStatus {
   public get icePlusStatus() {
     const key = lookupEnum('IcePlus', this.data, this.device);
     return asEnum(IcePlus, key);
+  }
+
+  public get icePlusStatusText() {
+    return lookupEnumLang('IcePlus', this.data, this.device);
   }
 
   public get freshAirFilterStatus() {
