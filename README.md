@@ -61,9 +61,9 @@ polling...
 | Dehumidifier | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | AC | :heavy_check_mark: | :warning: needs testing | :warning: needs testing |
 | Refrigerator | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Dishwasher | :heavy_check_mark: | :x: | :x: |
-| Dryer | :heavy_check_mark: | :x: | :x: |
-| Washer | :heavy_check_mark: | :x: | :x: |
+| Dishwasher | :heavy_check_mark: | :x: | :warning: needs testing |
+| Dryer | :heavy_check_mark: | :x: | :warning: needs testing |
+| Washer | :heavy_check_mark: | :x: | :warning: needs testing |
 
 ## Credits
 
