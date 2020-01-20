@@ -1,3 +1,5 @@
+import { ACDevice } from './devices/ac';
+import { DishwasherDevice } from './devices/dishwasher';
 import { Auth } from './core/auth';
 import { Gateway } from './core/gateway';
 import { Session } from './core/session';
@@ -7,7 +9,9 @@ import { DeviceInfo } from './core/device-info';
 import { ModelInfo } from './core/model-info';
 import { DehumidifierDevice } from './devices/dehumidifier';
 import { RefrigeratorDevice } from './devices/refrigerator';
-import { ACDevice } from './devices/ac';
+import { DryerDevice } from './devices/dryer';
+import { WasherDevice } from './devices/washer';
+import { DeviceType } from './core/constants';
 
 export class Client {
   public devices: DeviceInfo[] = [];
@@ -146,12 +150,18 @@ export class Client {
     }
 
     const modelInfo = await this.getModelInfo(deviceInfo);
-    switch (modelInfo.data.Info.productType.toLowerCase()) {
-      case 'ac':
+    switch (deviceInfo.data.deviceType) {
+      case DeviceType.AC:
         return new ACDevice(this, deviceInfo);
-      case 'dehumidifier':
+      case DeviceType.DEHUMIDIFIER:
         return new DehumidifierDevice(this, deviceInfo);
-      case 'ref':
+      case DeviceType.DISHWASHER:
+        return new DishwasherDevice(this, deviceInfo);
+      case DeviceType.DRYER:
+        return new DryerDevice(this, deviceInfo);
+      case DeviceType.WASHER:
+        return new WasherDevice(this, deviceInfo);
+      case DeviceType.REFRIGERATOR:
         return new RefrigeratorDevice(this, deviceInfo);
       default:
         // throw new Error(`Not supported productType: ${modelInfo.data.Info.productType}`);
