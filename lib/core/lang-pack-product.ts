@@ -6,7 +6,7 @@ import { LangValue } from './lang-pack-model';
  */
 export class LangPackProduct {
   public constructor(
-    public data: any
+    public data: any,
   ) {
   }
 

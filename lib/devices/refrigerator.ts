@@ -1,59 +1,59 @@
-import { asEnum, lookupEnum, lookupEnumLang } from '../utils';
 import { Device } from '../core/device';
+import { asEnum, lookupEnum, lookupEnumLang } from '../utils';
 
 export enum IcePlus {
-  OFF = "@CP_OFF_EN_W",
-  ON = "@CP_ON_EN_W",
-  ICE_PLUS = "@RE_TERM_ICE_PLUS_W",
-  ICE_PLUS_FREEZE = "@RE_MAIN_SPEED_FREEZE_TERM_W",
-  ICE_PLUS_OFF = "@CP_TERM_OFF_KO_W"
+  OFF = '@CP_OFF_EN_W',
+  ON = '@CP_ON_EN_W',
+  ICE_PLUS = '@RE_TERM_ICE_PLUS_W',
+  ICE_PLUS_FREEZE = '@RE_MAIN_SPEED_FREEZE_TERM_W',
+  ICE_PLUS_OFF = '@CP_TERM_OFF_KO_W',
 }
 
 export enum FreshAirFilter {
-  OFF = "@CP_TERM_OFF_KO_W",
-  AUTO = "@RE_STATE_FRESH_AIR_FILTER_MODE_AUTO_W",
-  POWER = "@RE_STATE_FRESH_AIR_FILTER_MODE_POWER_W",
-  REPLACE_FILTER = "@RE_STATE_REPLACE_FILTER_W",
-  SMARTCARE_RUN = "@RE_SMARTCARE_RUN_W",
-  SMARTCARE_ON = "@RE_STATE_SMART_SMART_CARE_ON",
-  SMARTCARE_OFF = "@RE_STATE_SMART_SMART_CARE_OFF",
-  EMPTY = ""
+  OFF = '@CP_TERM_OFF_KO_W',
+  AUTO = '@RE_STATE_FRESH_AIR_FILTER_MODE_AUTO_W',
+  POWER = '@RE_STATE_FRESH_AIR_FILTER_MODE_POWER_W',
+  REPLACE_FILTER = '@RE_STATE_REPLACE_FILTER_W',
+  SMARTCARE_RUN = '@RE_SMARTCARE_RUN_W',
+  SMARTCARE_ON = '@RE_STATE_SMART_SMART_CARE_ON',
+  SMARTCARE_OFF = '@RE_STATE_SMART_SMART_CARE_OFF',
+  EMPTY = '',
 }
 
 export enum SmartSavingMode {
-  OFF = "@CP_TERM_USE_NOT_W",
-  NIGHT = "@RE_SMARTSAVING_MODE_NIGHT_W",
-  CUSTOM = "@RE_SMARTSAVING_MODE_CUSTOM_W",
-  EMPTY = ""
+  OFF = '@CP_TERM_USE_NOT_W',
+  NIGHT = '@RE_SMARTSAVING_MODE_NIGHT_W',
+  CUSTOM = '@RE_SMARTSAVING_MODE_CUSTOM_W',
+  EMPTY = '',
 }
 
 export enum SmartSavingModeStatus {
-  OFF = "OFF",
-  ON = "ON",
-  EMPTY = ""
+  OFF = 'OFF',
+  ON = 'ON',
+  EMPTY = '',
 }
 
 export enum EcoFriendly {
-  OFF = "@CP_OFF_EN_W",
-  ON = "@CP_ON_EN_W"
+  OFF = '@CP_OFF_EN_W',
+  ON = '@CP_ON_EN_W',
 }
 
 export enum LockingStatus {
-  UNLOCK = "UNLOCK",
-  LOCK = "LOCK",
-  EMPTY = ""
+  UNLOCK = 'UNLOCK',
+  LOCK = 'LOCK',
+  EMPTY = '',
 }
 
 export enum DoorOpenState {
-  OPEN = "OPEN",
-  CLOSE = "CLOSE",
-  EMPTY = ""
+  OPEN = 'OPEN',
+  CLOSE = 'CLOSE',
+  EMPTY = '',
 }
 
 export enum TempUnit {
-  F = "Ｆ",
-  C = "℃",
-  EMPTY = ""
+  F = 'Ｆ',
+  C = '℃',
+  EMPTY = '',
 }
 
 export class RefrigeratorDevice extends Device {
@@ -78,12 +78,12 @@ export class RefrigeratorDevice extends Device {
     //   "REIP":"{{IcePlus}}",
     //   "REEF":"{{EcoFriendly}}"
     // }
-    const opValue = this.model.enumValue('TempRefrigerator', temp.toString())
+    const opValue = this.model.enumValue('TempRefrigerator', temp.toString());
     await this.setControl('RETM', opValue);
   }
 
   public async setTempFreezerC(temp: number) {
-    const opValue = this.model.enumValue('TempFreezer', temp.toString())
+    const opValue = this.model.enumValue('TempFreezer', temp.toString());
     await this.setControl('REFT', opValue);
   }
 }
@@ -91,7 +91,7 @@ export class RefrigeratorDevice extends Device {
 export class RefrigeratorStatus {
   public constructor(
     public device: RefrigeratorDevice,
-    public data: any
+    public data: any,
   ) {
   }
 
@@ -126,7 +126,7 @@ export class RefrigeratorStatus {
 
   public get doorOpened() {
     const key = lookupEnum('DoorOpenState', this.data, this.device);
-    return asEnum(DoorOpenState, key) == DoorOpenState.OPEN;
+    return asEnum(DoorOpenState, key) === DoorOpenState.OPEN;
   }
 
   public get tempUnit() {
@@ -136,12 +136,12 @@ export class RefrigeratorStatus {
 
   public get energySavingEnabled() {
     const key = lookupEnum('SmartSavingModeStatus', this.data, this.device);
-    return asEnum(SmartSavingModeStatus, key) == SmartSavingModeStatus.ON;
+    return asEnum(SmartSavingModeStatus, key) === SmartSavingModeStatus.ON;
   }
 
   public get locked() {
     const key = lookupEnum('LockingStatus', this.data, this.device);
-    return asEnum(LockingStatus, key) == LockingStatus.LOCK;
+    return asEnum(LockingStatus, key) === LockingStatus.LOCK;
   }
 
   public get activeSavingStatus() {
@@ -150,7 +150,7 @@ export class RefrigeratorStatus {
 
   public get ecoEnabled() {
     const value = lookupEnum('EcoFriendly', this.data, this.device);
-    return asEnum(EcoFriendly, value) == EcoFriendly.ON;
+    return asEnum(EcoFriendly, value) === EcoFriendly.ON;
   }
 
   public get waterFilterUsedMonth() {

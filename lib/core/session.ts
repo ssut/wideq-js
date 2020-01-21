@@ -1,9 +1,9 @@
-import { Auth } from './auth';
-import * as url from 'url';
-import { requestClient } from './request';
-import * as uuid from 'uuid';
 import * as _ from 'lodash';
+import * as url from 'url';
+import * as uuid from 'uuid';
+import { Auth } from './auth';
 import { MonitorError } from './errors';
+import { requestClient } from './request';
 
 export type WorkId = typeof uuid['v4'];
 

@@ -1,19 +1,19 @@
-import { LangPackModel } from './core/lang-pack-model';
-import { LangPackProduct } from './core/lang-pack-product';
-import { ACDevice } from './devices/ac';
-import { DishwasherDevice } from './devices/dishwasher';
 import { Auth } from './core/auth';
-import { Gateway } from './core/gateway';
-import { Session } from './core/session';
 import * as constants from './core/constants';
+import { DeviceType } from './core/constants';
 import { Device } from './core/device';
 import { DeviceInfo } from './core/device-info';
+import { Gateway } from './core/gateway';
+import { LangPackModel } from './core/lang-pack-model';
+import { LangPackProduct } from './core/lang-pack-product';
 import { ModelInfo } from './core/model-info';
+import { Session } from './core/session';
+import { ACDevice } from './devices/ac';
 import { DehumidifierDevice } from './devices/dehumidifier';
-import { RefrigeratorDevice } from './devices/refrigerator';
+import { DishwasherDevice } from './devices/dishwasher';
 import { DryerDevice } from './devices/dryer';
+import { RefrigeratorDevice } from './devices/refrigerator';
 import { WasherDevice } from './devices/washer';
-import { DeviceType } from './core/constants';
 
 export class Client {
   public devices: DeviceInfo[] = [];

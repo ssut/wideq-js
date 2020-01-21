@@ -28,7 +28,7 @@ export enum WasherState {
   SMART_DIAGNOSIS_DATA = '@WM_STATE_SMART_DIAGDATA_W',
   SPINNING = '@WM_STATE_SPINNING_W',
   TCL_ALARM_NORMAL = 'TCL_ALARM_NORMAL',
-  TUBCLEAN_COUNT_ALARM = '@WM_STATE_TUBCLEAN_COUNT_ALRAM_W'
+  TUBCLEAN_COUNT_ALARM = '@WM_STATE_TUBCLEAN_COUNT_ALRAM_W',
 }
 
 export class WasherDevice extends Device {
@@ -50,7 +50,7 @@ export class WasherDevice extends Device {
 export class WasherStatus {
   public constructor(
     public device: WasherDevice,
-    public data: any
+    public data: any,
   ) { }
 
   public get state() {

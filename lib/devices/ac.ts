@@ -14,7 +14,7 @@ export enum ACVSwingMode {
   FOUR = '@4',
   FIVE = '@5',
   SIX = '@6',
-  ALL = '@100'
+  ALL = '@100',
 }
 
 /**
@@ -35,23 +35,23 @@ export enum ACHSwingMode {
   FIVE = '@5',
   LEFT_HALF = '@13',
   RIGHT_HALF = '@35',
-  ALL = '@100'
+  ALL = '@100',
 }
 
 /**
  * The operation mode for an AC/HVAC device.
  */
 export enum ACMode {
-  COOL = "@AC_MAIN_OPERATION_MODE_COOL_W",
-  DRY = "@AC_MAIN_OPERATION_MODE_DRY_W",
-  FAN = "@AC_MAIN_OPERATION_MODE_FAN_W",
-  AI = "@AC_MAIN_OPERATION_MODE_AI_W",
-  HEAT = "@AC_MAIN_OPERATION_MODE_HEAT_W",
-  AIRCLEAN = "@AC_MAIN_OPERATION_MODE_AIRCLEAN_W",
-  ACO = "@AC_MAIN_OPERATION_MODE_ACO_W",
-  AROMA = "@AC_MAIN_OPERATION_MODE_AROMA_W",
-  ENERGY_SAVING = "@AC_MAIN_OPERATION_MODE_ENERGY_SAVING_W",
-  ENERGY_SAVER = "@AC_MAIN_OPERATION_MODE_ENERGY_SAVER_W"
+  COOL = '@AC_MAIN_OPERATION_MODE_COOL_W',
+  DRY = '@AC_MAIN_OPERATION_MODE_DRY_W',
+  FAN = '@AC_MAIN_OPERATION_MODE_FAN_W',
+  AI = '@AC_MAIN_OPERATION_MODE_AI_W',
+  HEAT = '@AC_MAIN_OPERATION_MODE_HEAT_W',
+  AIRCLEAN = '@AC_MAIN_OPERATION_MODE_AIRCLEAN_W',
+  ACO = '@AC_MAIN_OPERATION_MODE_ACO_W',
+  AROMA = '@AC_MAIN_OPERATION_MODE_AROMA_W',
+  ENERGY_SAVING = '@AC_MAIN_OPERATION_MODE_ENERGY_SAVING_W',
+  ENERGY_SAVER = '@AC_MAIN_OPERATION_MODE_ENERGY_SAVER_W',
 }
 
 /**
@@ -66,18 +66,18 @@ export enum ACFanSpeed {
   MID_HIGH = '@AC_MAIN_WIND_STRENGTH_MID_HIGH_W',
   HIGH = '@AC_MAIN_WIND_STRENGTH_HIGH_W',
   POWER = '@AC_MAIN_WIND_STRENGTH_POWER_W',
-  AUTO = '@AC_MAIN_WIND_STRENGTH_AUTO_W'
+  AUTO = '@AC_MAIN_WIND_STRENGTH_AUTO_W',
 }
 
 /**
  * Whether a device is on or off.
  */
 export enum ACOperation {
-  OFF = "@AC_MAIN_OPERATION_OFF_W",
+  OFF = '@AC_MAIN_OPERATION_OFF_W',
   /** This one seems to mean "on" ? */
-  RIGHT_ON = "@AC_MAIN_OPERATION_RIGHT_ON_W",
-  LEFT_ON = "@AC_MAIN_OPERATION_LEFT_ON_W",
-  ALL_ON = "@AC_MAIN_OPERATION_ALL_ON_W"
+  RIGHT_ON = '@AC_MAIN_OPERATION_RIGHT_ON_W',
+  LEFT_ON = '@AC_MAIN_OPERATION_LEFT_ON_W',
+  ALL_ON = '@AC_MAIN_OPERATION_ALL_ON_W',
 }
 
 export class ACDevice extends Device {
@@ -205,7 +205,7 @@ export class ACDevice extends Device {
 export class ACStatus {
   public constructor(
     public device: ACDevice,
-    public data: any
+    public data: any,
   ) { }
 
   public get currentTempInCelsius() {

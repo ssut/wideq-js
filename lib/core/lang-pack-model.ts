@@ -9,7 +9,7 @@ export interface LangValue {
  */
 export class LangPackModel {
   public constructor(
-    public data: any
+    public data: any,
   ) {
   }
 

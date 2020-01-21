@@ -1,5 +1,5 @@
-import { asEnum, lookupEnum } from '../utils';
 import { Device } from '../core/device';
+import { asEnum, lookupEnum } from '../utils';
 
 export enum DehumidifierOperationMode {
   SLEEP = '@AP_MAIN_MID_OPMODE_SLEEP_W',
@@ -88,7 +88,7 @@ export class DehumidifierDevice extends Device {
 export class DehumidifierStatus {
   public constructor(
     public device: DehumidifierDevice,
-    public data: any
+    public data: any,
   ) {
   }
 

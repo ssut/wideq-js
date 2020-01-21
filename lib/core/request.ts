@@ -1,5 +1,5 @@
-import { NotLoggedInError, NotConnectedError, APIError } from './errors';
 import axios, { AxiosInstance } from 'axios';
+import { APIError, NotConnectedError, NotLoggedInError } from './errors';
 
 import * as constants from './constants';
 
@@ -30,7 +30,6 @@ client.interceptors.response.use((resp) => {
 
 (client as any).lgedmPost = (async (url, data, accessToken, sessionId) => {
   const headers: { [key: string]: string } = {};
-
 
   if (typeof accessToken === 'string') {
     headers['x-thinq-token'] = accessToken;

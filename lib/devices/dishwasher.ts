@@ -1,5 +1,5 @@
 import { Device } from '../core/device';
-import { lookupEnum, asEnum, lookupReference } from '../utils';
+import { asEnum, lookupEnum, lookupReference } from '../utils';
 
 /**
  * The state of the dishwasher device.
@@ -7,10 +7,10 @@ import { lookupEnum, asEnum, lookupReference } from '../utils';
 export enum DishwasherState {
   INITIAL = '@DW_STATE_INITIAL_W',
   RUNNING = '@DW_STATE_RUNNING_W',
-  PAUSED = "@DW_STATE_PAUSE_W",
+  PAUSED = '@DW_STATE_PAUSE_W',
   OFF = '@DW_STATE_POWER_OFF_W',
   COMPLETE = '@DW_STATE_COMPLETE_W',
-  POWER_FAIL = "@DW_STATE_POWER_FAIL_W"
+  POWER_FAIL = '@DW_STATE_POWER_FAIL_W',
 }
 
 /**
@@ -23,7 +23,7 @@ export enum DishwasherProcess {
   DRYING = '@DW_STATE_DRYING_W',
   COMPLETE = '@DW_STATE_COMPLETE_W',
   NIGHT_DRYING = '@DW_STATE_NIGHTDRY_W',
-  CANCELLED = '@DW_STATE_CANCEL_W'
+  CANCELLED = '@DW_STATE_CANCEL_W',
 }
 
 export class DishwasherDevice extends Device {
@@ -45,7 +45,7 @@ export class DishwasherDevice extends Device {
 export class DishwasherStatus {
   public constructor(
     public device: DishwasherDevice,
-    public data: any
+    public data: any,
   ) { }
 
   public get state() {
