@@ -1,5 +1,5 @@
 import { Device } from '../core/device';
-import { asEnum, lookupEnum, lookupReference } from '../utils';
+import { asEnum, asTime, lookupEnum, lookupReference } from '../utils';
 
 /**
  * The state of the washer device.
@@ -68,11 +68,11 @@ export class WasherStatus {
   }
 
   public get remainingTime() {
-    return Number(this.data['Remain_Time_H']) * 60 + Number(this.data['Remain_Time_M']);
+    return asTime('Remain_Time_H', 'Remain_Time_M', this.data);
   }
 
   public get initialTime() {
-    return Number(this.data['Initial_Time_H']) * 60 + Number(this.data['Initial_Time_M']);
+    return asTime('Initial_Time_H', 'Initial_Time_M', this.data);
   }
 
   public get course() {

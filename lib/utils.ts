@@ -14,6 +14,10 @@ export function asEnum<E extends Record<keyof E, string | number>, K extends str
   return k as any; // assertion
 }
 
+export function asTime(hoursKey: string, minutesKey: string, data: any) {
+  return Number(data[hoursKey]) * 60 + Number(data[minutesKey]);
+}
+
 /**
  * Looks up an enum value for the provided attr.
  * @param attr The attribute to lookup in the enum.
