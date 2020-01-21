@@ -49,8 +49,8 @@ export class Client {
     let modelInfo: Client['modelInfo'] = {};
     let country: string = constants.DEFAULT_COUNTRY;
     let language: string = constants.DEFAULT_LANGUAGE;
-    let lang_pack_product: Client['langPackProduct'] = {};
-    let lang_pack_model: Client['langPackModel'] = {};
+    let langPackProduct: Client['langPackProduct'] = {};
+    let langPackModel: Client['langPackModel'] = {};
 
     for (const key of Object.keys(state)) {
       switch (key) {
@@ -91,11 +91,11 @@ export class Client {
           break;
 
         case 'langPackProduct':
-          lang_pack_product = state.langPackProduct;
+          langPackProduct = state.langPackProduct;
           break;
 
         case 'langPackModel':
-          lang_pack_model = state.langPackModel;
+          langPackModel = state.langPackModel;
           break;
       }
     }
@@ -108,6 +108,8 @@ export class Client {
       language,
     );
     client.modelInfo = modelInfo;
+    client.langPackProduct = langPackProduct;
+    client.langPackModel = langPackModel;
 
     return client;
   }
@@ -141,7 +143,7 @@ export class Client {
       language: this.language,
 
       langPackProduct: this.langPackProduct,
-      langPackModel: this.langPackModel
+      langPackModel: this.langPackModel,
     };
   }
 

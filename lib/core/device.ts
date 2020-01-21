@@ -2,9 +2,9 @@ import { Monitor } from './monitor';
 
 import { Client } from '../client';
 import { DeviceInfo } from './device-info';
-import { ModelInfo } from './model-info';
 import { LangPackModel } from './lang-pack-model';
 import { LangPackProduct } from './lang-pack-product';
+import { ModelInfo } from './model-info';
 
 export class Device {
   public model!: ModelInfo;

@@ -145,7 +145,7 @@ export class RefrigeratorStatus {
   }
 
   public get activeSavingStatus() {
-    return this.data['ActiveSavingStatus']
+    return this.data['ActiveSavingStatus'];
   }
 
   public get ecoEnabled() {
@@ -154,6 +154,6 @@ export class RefrigeratorStatus {
   }
 
   public get waterFilterUsedMonth() {
-    return this.data['WaterFilterUsedMonth']
+    return this.data['WaterFilterUsedMonth'];
   }
 }
