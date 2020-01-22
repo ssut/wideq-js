@@ -1,14 +1,14 @@
-import { TokenError } from './errors';
-import { Session } from './session';
-import { URL, resolve as resolveUrl } from 'url';
-import * as qs from 'qs';
 import * as assert from 'assert';
-import * as crypto from 'crypto';
-
-import { Gateway } from './gateway';
-import * as constants from './constants';
-import { requestClient } from './request';
+import crypto from 'crypto';
 import { DateTime } from 'luxon';
+import * as qs from 'qs';
+import { resolve as resolveUrl, URL } from 'url';
+
+import * as constants from './constants';
+import { TokenError } from './errors';
+import { Gateway } from './gateway';
+import { requestClient } from './request';
+import { Session } from './session';
 
 export class Auth {
   public constructor(
