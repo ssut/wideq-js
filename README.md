@@ -29,6 +29,7 @@ Options:
   -v, --version            output the version number
   -c, --country <type>     Country code for account (default: "US")
   -l, --language <type>    Language code for account (default: "en-US")
+  -t, --token <type>       Refresh token (optional)
   -s, --state-path <type>  State file path (default: "wideq-state.json")
   -h, --help               output usage information
 

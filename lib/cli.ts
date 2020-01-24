@@ -22,6 +22,7 @@ const input = (question: string) => new Promise<string>((resolve) => {
 const options = {
   country: constants.DEFAULT_COUNTRY,
   language: constants.DEFAULT_LANGUAGE,
+  refreshToken: '',
   statePath: 'wideq-state.json',
 };
 
@@ -32,6 +33,8 @@ program
   .on('option:country', (value) => options.country = value)
   .option('-l, --language <type>', 'Language code for account', constants.DEFAULT_LANGUAGE)
   .on('option:language', (value) => options.language = value)
+  .option('-t, --token <type>', 'Refresh token')
+  .on('option:token', (value) => options.refreshToken = value)
   .option('-s, --state-path <type>', 'State file path', 'wideq-state.json')
   .on('option:statePath', (value) => options.statePath = value);
 
@@ -39,9 +42,9 @@ program
   .command('auth')
   .description('Authenticate')
   .action(async () => {
-    const { country, language, statePath } = options;
+    const { country, language, refreshToken, statePath } = options;
 
-    const client = await init(country, language, statePath);
+    const client = await init(country, language, refreshToken, statePath);
 
     console.info('Refresh token: ' + client.auth.refreshToken);
 
@@ -53,8 +56,8 @@ program
   .command('ls', { isDefault: true })
   .description('List devices')
   .action(async () => {
-    const { country, language, statePath } = options;
-    const client = await init(country, language, statePath);
+    const { country, language, refreshToken, statePath } = options;
+    const client = await init(country, language, refreshToken, statePath);
 
     for (const device of client.devices) {
       console.info(String(device));
@@ -68,8 +71,8 @@ program
   .command('monitor <deviceId>')
   .description('Monitor any device, displaying generic information about its status.')
   .action(async (deviceId: string) => {
-    const { country, language, statePath } = options;
-    const client = await init(country, language, statePath);
+    const { country, language, refreshToken, statePath } = options;
+    const client = await init(country, language, refreshToken, statePath);
 
     const dev = await client.getDevice(deviceId);
     saveState(statePath, client);
@@ -121,7 +124,7 @@ async function authenticate(gateway: Gateway) {
   return Auth.fromUrl(gateway, callbackUrl);
 }
 
-async function init(country: string, language: string, stateFilePath?: string) {
+async function init(country: string, language: string, refreshToken: string, stateFilePath?: string) {
   let state: any = {};
 
   if (stateFilePath) {
@@ -132,12 +135,14 @@ async function init(country: string, language: string, stateFilePath?: string) {
     }
   }
 
-  const client = Client.loadFromState({
-    country,
-    language,
+  const client = refreshToken ?
+    await Client.loadFromToken(refreshToken, country, language) :
+    Client.loadFromState({
+      country,
+      language,
 
-    ...state,
-  });
+      ...state,
+    });
 
   if (!client.gateway) {
     client.gateway = await Gateway.discover(country, language);
