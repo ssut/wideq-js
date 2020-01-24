@@ -4,9 +4,6 @@ import { asEnum, lookupEnum, lookupEnumLang } from '../utils';
 export enum IcePlus {
   OFF = '@CP_OFF_EN_W',
   ON = '@CP_ON_EN_W',
-  ICE_PLUS = '@RE_TERM_ICE_PLUS_W',
-  ICE_PLUS_FREEZE = '@RE_MAIN_SPEED_FREEZE_TERM_W',
-  ICE_PLUS_OFF = '@CP_TERM_OFF_KO_W',
 }
 
 export enum FreshAirFilter {
@@ -86,6 +83,16 @@ export class RefrigeratorDevice extends Device {
     const opValue = this.model.enumValue('TempFreezer', temp.toString());
     await this.setControl('REFT', opValue);
   }
+
+  public async setEcoEnabled(val: boolean) {
+    const opValue = this.model.enumValue('EcoFriendly', val ? EcoFriendly.ON : EcoFriendly.OFF);
+    await this.setControl('REEF', opValue);
+  }
+
+  public async setIcePlusStatus(val: boolean) {
+    const opValue = this.model.enumValue('IcePlus', val ? IcePlus.ON : IcePlus.OFF);
+    await this.setControl('REIP', opValue);
+  }
 }
 
 export class RefrigeratorStatus {
@@ -107,16 +114,16 @@ export class RefrigeratorStatus {
 
   public get icePlusStatus() {
     const key = lookupEnum('IcePlus', this.data, this.device);
-    return asEnum(IcePlus, key);
-  }
-
-  public get icePlusStatusText() {
-    return lookupEnumLang('IcePlus', this.data, this.device);
+    return asEnum(IcePlus, key) === IcePlus.ON;
   }
 
   public get freshAirFilterStatus() {
     const key = lookupEnum('FreshAirFilter', this.data, this.device);
     return asEnum(FreshAirFilter, key);
+  }
+
+  public get freshAirFilterStatusText() {
+    return lookupEnumLang('FreshAirFilter', this.data, this.device);
   }
 
   public get energySavingMode() {
