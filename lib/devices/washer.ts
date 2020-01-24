@@ -76,7 +76,7 @@ export class WasherStatus {
   }
 
   public get course() {
-    const value = lookupReference('APCourse', this.data, this.device);
+    const value = lookupReference('Course', this.data, this.device);
     return value;
   }
 
