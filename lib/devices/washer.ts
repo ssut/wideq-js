@@ -45,6 +45,11 @@ export class WasherDevice extends Device {
 
     return null;
   }
+
+  public async setOn(isOn: boolean) {
+    const value = isOn ? 'On' : 'Off';
+    await this.setControl('Power', value);
+  }
 }
 
 export class WasherStatus {
