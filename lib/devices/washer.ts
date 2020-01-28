@@ -1,4 +1,4 @@
-import { Device } from '../core/device';
+import { Device, OnOffEnum } from '../core/device';
 import { asEnum, asTime, lookupEnum, lookupReference } from '../utils';
 
 /**
@@ -72,12 +72,26 @@ export class WasherStatus {
     return this.state !== WasherState.OFF;
   }
 
+  public get isRemoteStart() {
+    const key = lookupEnum('RemoteStart', this.data, this.device);
+    return asEnum(OnOffEnum, key) === OnOffEnum.ON;
+  }
+
+  public get isChildLock() {
+    const key = lookupEnum('ChildLock', this.data, this.device);
+    return asEnum(OnOffEnum, key) === OnOffEnum.ON;
+  }
+
   public get remainingTime() {
     return asTime('Remain_Time_H', 'Remain_Time_M', this.data);
   }
 
   public get initialTime() {
     return asTime('Initial_Time_H', 'Initial_Time_M', this.data);
+  }
+
+  public get reserveTime() {
+    return asTime('Reserve_Time_H', 'Reserve_Time_M', this.data);
   }
 
   public get course() {

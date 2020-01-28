@@ -6,6 +6,11 @@ import { LangPackModel } from './lang-pack-model';
 import { LangPackProduct } from './lang-pack-product';
 import { ModelInfo } from './model-info';
 
+export enum OnOffEnum {
+  OFF = '@CP_OFF_EN_W',
+  ON = '@CP_ON_EN_W',
+}
+
 export class Device {
   public model!: ModelInfo;
   public langPackProduct!: LangPackProduct;
