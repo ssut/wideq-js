@@ -37,6 +37,9 @@ export function lookupEnum(attr: string, data: any, device: Device) {
  * @returns The looked up value.
  */
 export function lookupReference(attr: string, data: any, device: Device) {
+  if (!(attr in data)) {
+    return null;
+  }
   return device.model.referenceName(attr, data[attr]);
 }
 

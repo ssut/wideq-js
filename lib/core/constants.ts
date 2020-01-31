@@ -22,12 +22,14 @@ export enum DeviceType {
   MICROWAVE = 302,
   COOKTOP = 303,
   HOOD = 304,
-  /** Includes heat pumps, etc., possibly all HVAC devices. */
-  AC = 401,
+  AC = 401, // Includes heat pumps, etc., possibly all HVAC devices.
   AIR_PURIFIER = 402,
   DEHUMIDIFIER = 403,
-  /** Robot vacuum cleaner? */
-  ROBOT_KING = 501,
+  ROBOT_KING = 501, // This is Robotic vacuum cleaner
+  TV = 701,
+  BOILER = 801,
+  SPEAKER = 901,
+  HOMEVU = 902,
   ARCH = 1001,
   MISSG = 3001,
   SENSOR = 3002,
@@ -38,4 +40,7 @@ export enum DeviceType {
   IOT_DUST_SENSOR = 3006,
   EMS_AIR_STATION = 4001,
   AIR_SENSOR = 4003,
+  PURICARE_AIR_DETECTOR = 4004,
+  V2PHONE = 6001,
+  HOMEROBOT = 9000,
 }

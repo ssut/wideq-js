@@ -1,5 +1,5 @@
 import { Device, OnOffEnum } from '../core/device';
-import { asEnum, asTime, lookupEnum, lookupReference } from '../utils';
+import { asEnum, asTime, lookupEnum, lookupEnumLang, lookupReference } from '../utils';
 
 /**
  * The state of the washer device.
@@ -63,9 +63,17 @@ export class WasherStatus {
     return asEnum(WasherState, key);
   }
 
+  public get stateText() {
+    return lookupEnumLang('State', this.data, this.device);
+  }
+
   public get previousState() {
     const key = lookupEnum('PreState', this.data, this.device);
     return asEnum(WasherState, key);
+  }
+
+  public get previousStateText() {
+    return lookupEnumLang('PreState', this.data, this.device);
   }
 
   public get isOn() {
