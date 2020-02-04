@@ -33,29 +33,29 @@ export interface ModelData {
 }
 
 export interface BitValue {
-  type: ValueType.Bit,
+  type: ValueType.Bit;
   options: any;
 }
 
 export interface EnumValue {
-  type: ValueType.Enum,
+  type: ValueType.Enum;
   options: any;
 }
 
 export interface RangeValue {
-  type: ValueType.Range,
+  type: ValueType.Range;
   min: number;
   max: number;
   step: number;
 }
 
 export interface ReferenceValue {
-  type: ValueType.Reference,
+  type: ValueType.Reference;
   reference: any;
 }
 
 export interface StringCommentValue {
-  type: ValueType.StringComment,
+  type: ValueType.StringComment;
   comment: string;
 }
 
@@ -146,6 +146,10 @@ export class ModelInfo {
     return this.data.Monitoring.type === 'BINARY(BYTE)';
   }
 
+  public decodeMonitor(data: any) {
+    return this.binaryMonitorData ? this.decodeMonitorBinary(data) : this.decodeMonitorJson(data);
+  }
+
   private decodeMonitorBinary(data: any) {
     const decoded: { [key: string]: any } = {};
 
@@ -165,10 +169,6 @@ export class ModelInfo {
 
   private decodeMonitorJson(data: any) {
     return JSON.parse(data.toString('utf-8'));
-  }
-
-  public decodeMonitor(data: any) {
-    return this.binaryMonitorData ? this.decodeMonitorBinary(data) : this.decodeMonitorJson(data);
   }
 
 }

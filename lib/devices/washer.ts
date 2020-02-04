@@ -1,5 +1,5 @@
-import { Device } from '../core/device';
-import { asEnum, lookupEnum, lookupReference } from '../utils';
+import { Device, OnOffEnum } from '../core/device';
+import { asEnum, asTime, lookupEnum, lookupEnumLang, lookupReference } from '../utils';
 
 /**
  * The state of the washer device.
@@ -28,7 +28,7 @@ export enum WasherState {
   SMART_DIAGNOSIS_DATA = '@WM_STATE_SMART_DIAGDATA_W',
   SPINNING = '@WM_STATE_SPINNING_W',
   TCL_ALARM_NORMAL = 'TCL_ALARM_NORMAL',
-  TUBCLEAN_COUNT_ALARM = '@WM_STATE_TUBCLEAN_COUNT_ALRAM_W'
+  TUBCLEAN_COUNT_ALARM = '@WM_STATE_TUBCLEAN_COUNT_ALRAM_W',
 }
 
 export class WasherDevice extends Device {
@@ -45,12 +45,17 @@ export class WasherDevice extends Device {
 
     return null;
   }
+
+  public async setOn(isOn: boolean) {
+    const value = isOn ? 'On' : 'Off';
+    await this.setControl('Power', value);
+  }
 }
 
 export class WasherStatus {
   public constructor(
     public device: WasherDevice,
-    public data: any
+    public data: any,
   ) { }
 
   public get state() {
@@ -58,25 +63,47 @@ export class WasherStatus {
     return asEnum(WasherState, key);
   }
 
+  public get stateText() {
+    return lookupEnumLang('State', this.data, this.device);
+  }
+
   public get previousState() {
     const key = lookupEnum('PreState', this.data, this.device);
     return asEnum(WasherState, key);
+  }
+
+  public get previousStateText() {
+    return lookupEnumLang('PreState', this.data, this.device);
   }
 
   public get isOn() {
     return this.state !== WasherState.OFF;
   }
 
+  public get isRemoteStart() {
+    const key = lookupEnum('RemoteStart', this.data, this.device);
+    return asEnum(OnOffEnum, key) === OnOffEnum.ON;
+  }
+
+  public get isChildLock() {
+    const key = lookupEnum('ChildLock', this.data, this.device);
+    return asEnum(OnOffEnum, key) === OnOffEnum.ON;
+  }
+
   public get remainingTime() {
-    return Number(this.data['Remain_Time_H']) * 60 + Number(this.data['Remain_Time_M']);
+    return asTime('Remain_Time_H', 'Remain_Time_M', this.data);
   }
 
   public get initialTime() {
-    return Number(this.data['Initial_Time_H']) * 60 + Number(this.data['Initial_Time_M']);
+    return asTime('Initial_Time_H', 'Initial_Time_M', this.data);
+  }
+
+  public get reserveTime() {
+    return asTime('Reserve_Time_H', 'Reserve_Time_M', this.data);
   }
 
   public get course() {
-    const value = lookupReference('APCourse', this.data, this.device);
+    const value = lookupReference('Course', this.data, this.device);
     return value;
   }
 

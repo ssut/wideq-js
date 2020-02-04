@@ -1,9 +1,9 @@
-import * as url from 'url';
 import * as qs from 'qs';
+import * as url from 'url';
 
 import { GATEWAY_URL } from './constants';
-import { requestClient } from './request';
 import * as constants from './constants';
+import { requestClient } from './request';
 
 export class Gateway {
   public constructor(

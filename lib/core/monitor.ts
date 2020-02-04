@@ -1,5 +1,5 @@
-import { Session, WorkId } from './session';
 import { MonitorError } from './errors';
+import { Session, WorkId } from './session';
 
 export class Monitor {
   public workId?: WorkId;

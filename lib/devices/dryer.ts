@@ -1,5 +1,5 @@
 import { Device } from '../core/device';
-import { lookupEnum, asEnum, lookupReference } from '../utils';
+import { asEnum, asTime, lookupEnum, lookupReference } from '../utils';
 
 /**
  * The state of the dryer device.
@@ -14,7 +14,7 @@ export enum DryerState {
   PAUSE = '@WM_STATE_PAUSE_W',
   RUNNING = '@WM_STATE_RUNNING_W',
   SMART_DIAGNOSIS = '@WM_STATE_SMART_DIAGNOSIS_W',
-  WRINKLE_CARE = '@WM_STATE_WRINKLECARE_W'
+  WRINKLE_CARE = '@WM_STATE_WRINKLECARE_W',
 }
 
 /**
@@ -29,7 +29,7 @@ export enum DryLevel {
   MORE = '@WM_DRY27_DRY_LEVEL_MORE_W',
   NORMAL = '@WM_DRY27_DRY_LEVEL_NORMAL_W',
   OFF = '-',
-  VERY = '@WM_DRY27_DRY_LEVEL_VERY_W'
+  VERY = '@WM_DRY27_DRY_LEVEL_VERY_W',
 }
 
 /**
@@ -51,7 +51,7 @@ export enum DryerError {
   ERROR_TE1 = '@WM_US_DRYER_ERROR_TE1_W',
   ERROR_TE2 = '@WM_US_DRYER_ERROR_TE2_W',
   ERROR_TE5 = '@WM_US_DRYER_ERROR_TE5_W',
-  ERROR_TE6 = '@WM_US_DRYER_ERROR_TE6_W'
+  ERROR_TE6 = '@WM_US_DRYER_ERROR_TE6_W',
 }
 
 /**
@@ -63,7 +63,7 @@ export enum TempControl {
   LOW = '@WM_DRY27_TEMP_LOW_W',
   MEDIUM = '@WM_DRY27_TEMP_MEDIUM_W',
   MID_HIGH = '@WM_DRY27_TEMP_MID_HIGH_W',
-  HIGH = '@WM_DRY27_TEMP_HIGH_W'
+  HIGH = '@WM_DRY27_TEMP_HIGH_W',
 }
 
 /**
@@ -75,7 +75,7 @@ export enum TimeDry {
   THIRTY = '30',
   FOURTY = '40',
   FIFTY = '50',
-  SIXTY = '60'
+  SIXTY = '60',
 }
 
 export class DryerDevice extends Device {
@@ -97,7 +97,7 @@ export class DryerDevice extends Device {
 export class DryerStatus {
   public constructor(
     public device: DryerDevice,
-    public data: any
+    public data: any,
   ) { }
 
   public get state() {
@@ -130,11 +130,11 @@ export class DryerStatus {
   }
 
   public get remainingTime() {
-    return Number(this.data['Remain_Time_H']) * 60 +    Number(this.data['Remain_Time_M']);
+    return asTime('Remain_Time_H', 'Remain_Time_M', this.data);
   }
 
   public get initialTime() {
-    return Number(this.data['Initial_Time_H']) * 60 +    Number(this.data['Initial_Time_M']);
+    return asTime('Initial_Time_H', 'Initial_Time_M', this.data);
   }
 
   public get course() {
