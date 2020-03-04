@@ -26,6 +26,9 @@ export function asTime(hoursKey: string, minutesKey: string, data: any) {
  * @returns The enum value.
  */
 export function lookupEnum(attr: string, data: any, device: Device) {
+  if (!(attr in data)) {
+    return null;
+  }
   return device.model.enumName(attr, data[attr]);
 }
 
