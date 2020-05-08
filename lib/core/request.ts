@@ -43,6 +43,15 @@ client.interceptors.response.use((resp) => {
   });
   const out = resp.data[constants.DATA_ROOT];
 
+  // we must release control otherwise it bricks the stock app for a while
+  if (url.endsWith("rtiControl")) {
+    await client.post(url.replace("rtiControl", "delControlPermission"), {
+      [constants.DATA_ROOT]: {
+        deviceId: data.deviceId // this exists for control commands
+      }
+    }, { headers });
+  }
+
   if ('returnCd' in out) {
     const code = out.returnCd as string;
 
