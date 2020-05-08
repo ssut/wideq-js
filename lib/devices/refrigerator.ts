@@ -58,6 +58,32 @@ export class RefrigeratorDevice extends Device {
     return null;
   }
 
+  // binary based, new control method
+  public async setBinaryTempRefrigerator(status: RefrigeratorStatus, newValue: string) {
+    await this.setControlBinary(status, 'TempRefrigerator', newValue);
+  }
+
+  public async setBinaryTempFreezer(status: RefrigeratorStatus, newValue: string) {
+    await this.setControlBinary(status, 'TempFreezer', newValue);
+  }
+
+  public async setBinaryEco(status: RefrigeratorStatus, newValue: boolean) {
+    const opValue = this.model.enumValue('EcoFriendly', newValue ? OnOffEnum.ON : OnOffEnum.OFF);
+    await this.setControlBinary(status, 'EcoFriendly', opValue);
+  }
+
+  public async setBinaryIcePlus(status: RefrigeratorStatus, newValue: boolean) {
+    const opValue = this.model.enumValue('IcePlus', newValue ? OnOffEnum.ON : OnOffEnum.OFF);
+    await this.setControlBinary(status, 'IcePlus', opValue);
+  }
+
+  public async setBinaryFreshAirFilter(status: RefrigeratorStatus, newValue: FreshAirFilter) {
+    const opValue = this.model.enumValue('FreshAirFilter', newValue);
+    await this.setControlBinary(status, 'FreshAirFilter', opValue);
+  }
+
+
+  // key based, no prefix for BC
   public async setTempRefrigeratorC(temp: number) {
     // {
     //   "RETM":"{{TempRefrigerator}}",
