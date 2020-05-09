@@ -49,23 +49,11 @@ export class Device {
       if (part.startsWith("{{")) {
         part = part.substring(2, part.length-2); // chop off {{ and }}
         if (part == keyToChange) {
-          console.dir({
-              part: part,
-              result: newValue
-          });
           result.push(Number(newValue));
         } else {
-          console.dir({
-            part: part,
-            result: status.data[part]
-          });
           result.push(Number(status.data[part]));
         }
       } else { // constant
-          console.dir({
-              part: part,
-              result: Number(part)
-          });
         result.push(Number(part));
       }
     });
