@@ -37,6 +37,35 @@ export class Device {
     return this.client.session!.setDeviceControls(this.device.id, { [key]: value });
   }
 
+  public createControlBinaryBuffer(status: any, keyToChange: string|undefined=undefined, newValue: string|undefined=undefined): Buffer {
+    const spec = this.model.data.ControlWifi.action.SetControl;
+    // e.g. [data] = "[{{TempRefrigerator}}, {{TempFreezer}}, {{IcePlus}}, {{FreshAirFilter}}, {{SmartSavingMode}}, 255, 255, 255, 255, 255, 255]"
+    const specData = spec.data.substring(1, spec.data.length-1).split(",").map((s: string) => s.trim());
+
+    let result: number[] = [];
+
+    specData.forEach((part: string) => {
+      // variable
+      if (part.startsWith("{{")) {
+        part = part.substring(2, part.length-2); // chop off {{ and }}
+        if (part == keyToChange) {
+          result.push(Number(newValue));
+        } else {
+          result.push(Number(status.data[part]));
+        }
+      } else { // constant
+        result.push(Number(part));
+      }
+    });
+
+    return Buffer.from(result);
+  }
+
+  public async setControlBinary(status: any, keyToChange: string|undefined=undefined, newValue: string|undefined=undefined) {
+    const buffer = this.createControlBinaryBuffer(status, keyToChange, newValue);
+    return this.client.session!.setDeviceControlBinary(this.device.id, buffer);
+  }
+
   public async getConfig(key: string) {
     const data = await this.client.session!.getDeviceConfig(this.device.id, key);
 

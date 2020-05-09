@@ -81,6 +81,18 @@ export class Session {
     });
   }
 
+  public async setDeviceControlBinary(deviceId: string, data: Buffer) {
+    return this.post('rti/rtiControl', {
+      cmd: 'Control',
+      cmdOpt: 'Set',
+      value: "ControlData",
+      deviceId,
+      workId: uuid.v4(),
+      data: data.toString("base64"),
+      format: "B64"
+    });
+  }
+
   public async getDeviceConfig(deviceId: string, key: string, category = 'Config'): Promise<any> {
     const resp = await this.post('rti/rtiControl', {
       cmd: category,
