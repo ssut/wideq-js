@@ -29,6 +29,8 @@ export enum WasherState {
   SPINNING = '@WM_STATE_SPINNING_W',
   TCL_ALARM_NORMAL = 'TCL_ALARM_NORMAL',
   TUBCLEAN_COUNT_ALARM = '@WM_STATE_TUBCLEAN_COUNT_ALRAM_W',
+  COOLDOWN = '@WM_STATE_COOLDOWN_W'
+
 }
 
 export class WasherDevice extends Device {
